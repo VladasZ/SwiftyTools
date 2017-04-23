@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Debug {
+public class Debug {
     
     static func check(_ object: Any?, error: String) {
         

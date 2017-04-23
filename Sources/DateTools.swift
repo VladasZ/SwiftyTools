@@ -14,7 +14,7 @@ fileprivate let dateFormatter        = DateFormatter("dd-MM-yyyy")
 fileprivate let hourMinTimeFormatter = DateFormatter("HH:mm")
 fileprivate let minSecTimeFormatter  = DateFormatter("mm:ss")
 
-extension DateFormatter {
+public extension DateFormatter {
     
     convenience init(_ format: String) {
         
@@ -23,7 +23,7 @@ extension DateFormatter {
     }
 }
 
-extension Date {
+public extension Date {
     
     static func parse(_ dateString: String) -> Date {
         
@@ -71,7 +71,7 @@ extension Date {
     }
 }
 
-extension Int {
+public extension Int {
     
     var hoursMinuteString: String {
         
@@ -80,7 +80,7 @@ extension Int {
     }
 }
 
-extension CMTime {
+public extension CMTime {
     
     var String: String {
         

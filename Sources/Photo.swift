@@ -11,7 +11,7 @@ import Photos
 import CoreGraphics
 import CoreImage
 
-class Photo : UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+public class Photo : UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     //MARK: - Strings
     

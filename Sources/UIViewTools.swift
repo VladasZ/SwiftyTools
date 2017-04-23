@@ -12,7 +12,7 @@ fileprivate let ANIMATION_DURATION:TimeInterval = 0.211
 
 //MARK: - Animations
 
-extension UIView {
+public extension UIView {
     
     func hideAnimated() {
         
@@ -34,7 +34,7 @@ extension UIView {
     
 }
 
-extension UIView {
+public extension UIView {
     
     @discardableResult func circle() -> Self {
         

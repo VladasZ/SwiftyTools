@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Alert {
+public struct Alert {
     
     public static var cancelLabel:String = "Cancel"
     public static var agreeLabel:String = "OK"

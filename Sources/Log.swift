@@ -15,7 +15,7 @@ fileprivate enum LogType {
     case error
 }
 
-class Log {
+public class Log {
     
     static func info(_ message:String = "", _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
         
@@ -56,7 +56,7 @@ class Log {
     }
 }
 
-extension String {
+public extension String {
     
     var lastPathComponent:String {
         

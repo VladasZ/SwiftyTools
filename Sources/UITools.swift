@@ -8,7 +8,7 @@
 
 import UIKit
 
-var topmostController: UIViewController {
+public var topmostController: UIViewController {
     
     var topController = UIApplication.shared.keyWindow?.rootViewController;
     
@@ -22,7 +22,7 @@ var topmostController: UIViewController {
     return controller
 }
 
-var keyWindow: UIView {
+public var keyWindow: UIView {
     
     guard let window = UIApplication.shared.keyWindow
         else { Log.error(); return UIView() }
@@ -30,10 +30,10 @@ var keyWindow: UIView {
     return window
 }
 
-func openSettings() {
-    
-    guard let settingsURL = URL(string: UIApplicationOpenSettingsURLString)
-        else { Log.error(); return }
-    
-    UIApplication.shared.open(settingsURL)    
-}
+//func openSettings() {
+//    
+//    guard let settingsURL = URL(string: UIApplicationOpenSettingsURLString)
+//        else { Log.error(); return }
+//    
+//    UIApplication.shared.open(settingsURL)    
+//}

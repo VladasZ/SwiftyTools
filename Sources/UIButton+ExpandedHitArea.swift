@@ -10,7 +10,7 @@ import UIKit
 
 // http://stackoverflow.com/questions/808503/uibutton-making-the-hit-area-larger-than-the-default-hit-area
 
-class ExpandedHitAreaButton : UIButton {
+public class ExpandedHitAreaButton : UIButton {
     
     @IBInspectable var hitArea:CGSize = CGSize(width: 100, height: 100)
     
