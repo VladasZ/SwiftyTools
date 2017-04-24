@@ -10,28 +10,28 @@ import Foundation
 
 public class Debug {
     
-    static func check(_ object: Any?, error: String) {
+    public static func check(_ object: Any?, error: String) {
         
         #if DEBUG
             if object == nil { Alert.debugError(error) }
         #endif
     }
     
-    static func checkForNil(_ object: Any?, error: String) {
+    public static func checkForNil(_ object: Any?, error: String) {
         
         #if DEBUG
             if object != nil { Alert.debugError(error) }
         #endif
     }
     
-    static func execute(_ block: () -> ()) {
+    public static func execute(_ block: () -> ()) {
         
         #if DEBUG
             block()
         #endif
     }
     
-    static func executeOnSimulator(_ simulator: () -> (), device: () -> ()) {
+    public static func executeOnSimulator(_ simulator: () -> (), device: () -> ()) {
         
         #if DEBUG
             
@@ -44,7 +44,7 @@ public class Debug {
         #endif
     }
     
-    static func addressOf<T: AnyObject>(_ object: T) -> Int {
+    public static func addressOf<T: AnyObject>(_ object: T) -> Int {
         
         return unsafeBitCast(object, to: Int.self)
     }

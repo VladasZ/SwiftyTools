@@ -135,7 +135,7 @@ public class Photo : UIViewController, UINavigationControllerDelegate, UIImagePi
         addChildViewController(picker)
     }
     
-    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         

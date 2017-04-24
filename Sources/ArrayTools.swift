@@ -9,7 +9,7 @@
 import Foundation
 
 public extension Array where Element : Hashable {
-    var unique: [Element] {
+    public var unique: [Element] {
         return Array(Set(self))
     }
 }

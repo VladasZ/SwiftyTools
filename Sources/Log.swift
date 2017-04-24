@@ -17,17 +17,17 @@ fileprivate enum LogType {
 
 public class Log {
     
-    static func info(_ message:String = "", _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+    public static func info(_ message:String = "", _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
         
         log(message, withType: .info, file, function, line)
     }
     
-    static func warning(_ message:String = "", _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+    public static func warning(_ message:String = "", _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
         
         log(message, withType: .warning, file, function, line)
     }
     
-    static func error(_ message:String = "", _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+    public static func error(_ message:String = "", _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
                 
         log(message, withType: .error, file, function, line)        
     }

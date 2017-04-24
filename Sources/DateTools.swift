@@ -16,7 +16,7 @@ fileprivate let minSecTimeFormatter  = DateFormatter("mm:ss")
 
 public extension DateFormatter {
     
-    convenience init(_ format: String) {
+    public convenience init(_ format: String) {
         
         self.init()
         self.dateFormat = format
@@ -25,7 +25,7 @@ public extension DateFormatter {
 
 public extension Date {
     
-    static func parse(_ dateString: String) -> Date {
+    public static func parse(_ dateString: String) -> Date {
         
         if let date = dateTimeFormatter.date(from: dateString) {
             
@@ -36,7 +36,7 @@ public extension Date {
         return Date()
     }
     
-    func stringWithFormat(_ format: String) -> String {
+    public func stringWithFormat(_ format: String) -> String {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
@@ -45,27 +45,27 @@ public extension Date {
     
     private static let cal = Calendar(identifier: .gregorian)
     
-    var withoutTimeComponent: Date {
+    public var withoutTimeComponent: Date {
         
         return Date.cal.date(bySetting: .minute, value: 0, of: Date.cal.date(bySetting: .hour, value: 0, of: self)!)!
     }
     
-    var timeString: String {
+    public var timeString: String {
         
         return hourMinTimeFormatter.string(from: self)
     }
     
-    var dateString: String {
+    public var dateString: String {
         
         return dateFormatter.string(from: self)
     }
     
-    static var currentDateTimeString: String {
+    public static var currentDateTimeString: String {
         
         return dateTimeFormatter.string(from: Date())
     }
     
-    static var currentDateString: String {
+    public static var currentDateString: String {
         
         return dateFormatter.string(from: Date())
     }
@@ -73,7 +73,7 @@ public extension Date {
 
 public extension Int {
     
-    var hoursMinuteString: String {
+    public var hoursMinuteString: String {
         
         let date = Date(timeIntervalSinceReferenceDate: TimeInterval(self))
         return minSecTimeFormatter.string(from: date)
@@ -82,7 +82,7 @@ public extension Int {
 
 public extension CMTime {
     
-    var String: String {
+    public var String: String {
         
         let date = Date(timeIntervalSinceReferenceDate: CMTimeGetSeconds(self))
         return hourMinTimeFormatter.string(from: date)

@@ -30,10 +30,10 @@ public var keyWindow: UIView {
     return window
 }
 
-//func openSettings() {
-//    
-//    guard let settingsURL = URL(string: UIApplicationOpenSettingsURLString)
-//        else { Log.error(); return }
-//    
-//    UIApplication.shared.open(settingsURL)    
-//}
+func openSettings() {
+    
+    guard let settingsURL = URL(string: UIApplicationOpenSettingsURLString)
+        else { Log.error(); return }
+    
+    UIApplication.shared.openURL(settingsURL)
+}

@@ -12,9 +12,9 @@ import UIKit
 
 public class ExpandedHitAreaButton : UIButton {
     
-    @IBInspectable var hitArea:CGSize = CGSize(width: 100, height: 100)
+    @IBInspectable public var hitArea:CGSize = CGSize(width: 100, height: 100)
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         
         if self.isHidden || !self.isUserInteractionEnabled || self.alpha < 0.01 { return nil }
         
