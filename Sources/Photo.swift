@@ -167,10 +167,6 @@ public class Photo : UIViewController, UINavigationControllerDelegate, UIImagePi
             }
         })
         
-//        photoDialog.addAction(UIAlertAction(title: R.string.localization.delete(), style: .destructive) { action in
-//            
-//        })
-        
         photoDialog?.addAction(UIAlertAction(title: cancelCaption, style: .cancel, handler: nil))
     }
 }

@@ -12,35 +12,25 @@ public class Debug {
     
     public static func check(_ object: Any?, error: String) {
         
-        #if DEBUG
-            if object == nil { Alert.debugError(error) }
-        #endif
+        if object == nil { Log.error(error) }
     }
     
     public static func checkForNil(_ object: Any?, error: String) {
         
-        #if DEBUG
-            if object != nil { Alert.debugError(error) }
-        #endif
+        if object != nil { Log.error(error) }
     }
     
     public static func execute(_ block: () -> ()) {
         
-        #if DEBUG
-            block()
-        #endif
+        block()
     }
     
     public static func executeOnSimulator(_ simulator: () -> (), device: () -> ()) {
         
-        #if DEBUG
-            
-            #if (arch(i386) || arch(x86_64)) && (os(iOS) || os(watchOS) || os(tvOS))
-                simulator()
-            #else
-                device()
-            #endif
-            
+        #if (arch(i386) || arch(x86_64)) && (os(iOS) || os(watchOS) || os(tvOS))
+            simulator()
+        #else
+            device()
         #endif
     }
     
@@ -48,5 +38,5 @@ public class Debug {
         
         return unsafeBitCast(object, to: Int.self)
     }
-
+    
 }

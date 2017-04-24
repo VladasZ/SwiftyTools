@@ -34,8 +34,6 @@ public class Log {
     
     private static func log(_ message:String, withType type:LogType, _ file:String, _ function:String, _ line:Int) {
         
-        #if DEBUG
-            
             var typeString: String
             let file = file.lastPathComponent.replacingOccurrences(of: ".swift", with: "")
             
@@ -50,9 +48,7 @@ public class Log {
             logMessage.append("[\(file)::\(function) - \(line)]")
             logMessage.append(" \(message)")
             
-            print(logMessage)
-            
-        #endif
+            print(logMessage)            
     }
 }
 

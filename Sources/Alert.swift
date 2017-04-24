@@ -46,13 +46,6 @@ public struct Alert {
         topmostController.present(alert, animated: true, completion: nil)
     }
     
-    public static func debugError(_ message:String, file:String = #file, function:String = #function, line:Int = #line) {
-        #if DEBUG
-            self.error(message)
-            Log.error(message, file, function, line)
-        #endif
-    }
-    
     public static func question(_ message:String, agreeTitle:String, action:@escaping () -> ()) {
         
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
