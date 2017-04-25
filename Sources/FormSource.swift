@@ -50,6 +50,8 @@ public class FormElement {
     
     public var error: String?
     
+    public init() { }
+    
     @discardableResult public func bindTo(_ source: FormSource) -> FormElement {
         
         self.source = source
@@ -86,7 +88,7 @@ public class FormElement {
         return self
     }
     
-    func validate() -> FormError? {
+    public func validate() -> FormError? {
         
         guard let source = source else { return .noSource }
         
