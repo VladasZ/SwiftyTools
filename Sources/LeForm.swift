@@ -8,11 +8,13 @@
 
 import UIKit
 
-public class LeForm {
+open class LeForm {
     
     open var elements: [FormElement] {
         return [FormElement]()
     }
+    
+    public init() { }
     
     @discardableResult public func validate(_ completion: ((FormError?) -> ())? = nil) -> FormError? {
         
