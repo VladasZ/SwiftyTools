@@ -33,6 +33,11 @@ public class FormElement {
     
     public var source: FormSource?
     
+    public var isEmpty: Bool {
+        
+        return source?.value == nil || source?.value == ""
+    }
+    
     public var value: String? {
         get {
             if _trim { return source?.value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }
