@@ -18,6 +18,8 @@ public class Signal {
     
     private var subscribers = [SignalSubscriber]()
     
+    public init () { }
+    
     public func subscribe(_ file: String = #file, _ action: @escaping () -> ()) {
         
         unsubscribe(file)
