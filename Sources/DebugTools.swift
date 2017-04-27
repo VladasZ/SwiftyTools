@@ -6,7 +6,7 @@
 //  Copyright © 2017 Almet Systems. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class Debug {
     
@@ -39,4 +39,27 @@ public class Debug {
         return unsafeBitCast(object, to: Int.self)
     }
     
+    //MARK: - Debug button
+    
+    private static var button: UIButton!
+    private static var debugButtonAction: (() -> ())!
+    
+    public static func onDebugButtonClick(_ action: @escaping () -> ()) {
+        
+        if button == nil {
+            
+            button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            button.addTarget(self, action: #selector(self.didPressDebugButton), for: .touchUpInside)
+            button.backgroundColor = UIColor.gray
+            button.alpha = 0.4
+            keyWindow.addSubview(button)
+        }
+        
+        debugButtonAction = action
+    }
+    
+    @objc private static func didPressDebugButton() {
+        
+        debugButtonAction()
+    }
 }
