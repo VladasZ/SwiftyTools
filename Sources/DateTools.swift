@@ -25,6 +25,19 @@ public extension DateFormatter {
 
 public extension Date {
     
+    public static func with(year: Int, month: Int, day: Int) -> Date {
+        
+        let gregorianCalendar = NSCalendar(calendarIdentifier: .gregorian)!
+        
+        var dateComponents = DateComponents()
+        dateComponents.year = year
+        dateComponents.month = month
+        dateComponents.day = day
+        
+        let date = gregorianCalendar.date(from: dateComponents)!
+        return date
+    }
+    
     public static func parse(_ dateString: String) -> Date {
         
         if let date = dateTimeFormatter.date(from: dateString) {
