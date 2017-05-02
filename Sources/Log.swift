@@ -17,38 +17,39 @@ fileprivate enum LogType {
 
 public class Log {
     
-    public static func info(_ message:String = "", _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+    public static func info(_ message: Any? = nil, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
         
         log(message, withType: .info, file, function, line)
     }
     
-    public static func warning(_ message:String = "", _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+    public static func warning(_ message: Any? = nil, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
         
         log(message, withType: .warning, file, function, line)
     }
     
-    public static func error(_ message:String = "", _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
-                
-        log(message, withType: .error, file, function, line)        
+    public static func error(_ message: Any? = nil, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+        
+        log(message, withType: .error, file, function, line)
     }
     
-    private static func log(_ message:String, withType type:LogType, _ file:String, _ function:String, _ line:Int) {
+    private static func log(_ message: Any? = nil, withType type:LogType, _ file:String, _ function:String, _ line:Int) {
         
-            var typeString: String
-            let file = file.lastPathComponent.replacingOccurrences(of: ".swift", with: "")
-            
-            switch type {
-            case .info:    typeString = "💚 INFO 💚"
-            case .warning: typeString = "💛 WARNING 💛"
-            case .error:   typeString = "❤️ ERROR ❤️"
-            }
-            
-            var logMessage = "[\(typeString)]"
-            
-            logMessage.append("[\(file)::\(function) - \(line)]")
-            logMessage.append(" \(message)")
-            
-            print(logMessage)            
+        var typeString: String
+        let file = file.lastPathComponent.replacingOccurrences(of: ".swift", with: "")
+        
+        switch type {
+        case .info:    typeString = "💚 INFO 💚"
+        case .warning: typeString = "💛 WARNING 💛"
+        case .error:   typeString = "❤️ ERROR ❤️"
+        }
+        
+        var logMessage = "[\(typeString)]"
+        
+        logMessage.append("[\(file)::\(function) - \(line)]")
+        
+        if let message = message { logMessage.append(" " + String(describing: message)) }
+        
+        print(logMessage)
     }
 }
 
