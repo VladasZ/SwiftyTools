@@ -38,15 +38,16 @@ public extension Date {
         return date
     }
     
-    public static func parse(_ dateString: String) -> Date {
+    public static func parse(_ dateString: String, format: String? = nil) -> Date {
         
-        if let date = dateTimeFormatter.date(from: dateString) {
-            
-            return date
+        if let format = format {
+            let formatter = DateFormatter(format)
+            if let date = formatter.date(from: dateString) { return date }
+            else { Log.error(); return Date() }
         }
         
-        Log.error()
-        return Date()
+        if let date = dateTimeFormatter.date(from: dateString) { return date }
+        else { Log.error(); return Date() }
     }
     
     public func stringWithFormat(_ format: String) -> String {
