@@ -62,6 +62,8 @@ public class DatePicker : UIView {
     
     public static func finish() {
         
+        if isHidden { return }
+        
         isHidden = true
         completion(pickerView.date)
         picker.hide(true)
