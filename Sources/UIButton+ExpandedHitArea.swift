@@ -1,6 +1,6 @@
 //
 //  UIButton+ExpandedHitArea.swift
-//  Vape
+//  SwiftTools
 //
 //  Created by Vladas Zakrevskis on 2/14/17.
 //  Copyright © 2017 Vladas Zakrevskis. All rights reserved.
