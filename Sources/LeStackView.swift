@@ -12,9 +12,9 @@ public class LeStackView : UIView {
     
     //MARK: - Properties
     
-    var isHorizontal = true
+    public var isHorizontal = true
     
-    var arrangedSubviews: [UIView]! {
+    public var arrangedSubviews: [UIView]! {
         didSet {
             guard let subviews = arrangedSubviews else { print("❤️"); return }
             setupArrangedSubviews(subviews)
@@ -28,7 +28,7 @@ public class LeStackView : UIView {
     
     //MARK: - Initialization
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         
         setup()
