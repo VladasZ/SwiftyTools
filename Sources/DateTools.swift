@@ -25,6 +25,14 @@ public extension DateFormatter {
 
 public extension Date {
     
+    //MARK: - Elements
+    
+    var day:   Int { return Calendar.current.component(.day,   from: self) }
+    var month: Int { return Calendar.current.component(.month, from: self) }
+    var year:  Int { return Calendar.current.component(.year,  from: self) }
+    
+    //MARK: - Initializatiors
+    
     public static func with(year: Int, month: Int, day: Int) -> Date {
         
         let gregorianCalendar = NSCalendar(calendarIdentifier: .gregorian)!
