@@ -31,6 +31,8 @@ public extension Date {
     var month: Int { return Calendar.current.component(.month, from: self) }
     var year:  Int { return Calendar.current.component(.year,  from: self) }
     
+    var monthString: String { return DateFormatter("MMMM").string(from: self) }
+    
     //MARK: - Initializatiors
     
     public static func with(year: Int, month: Int, day: Int) -> Date {
