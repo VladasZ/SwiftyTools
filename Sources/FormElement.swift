@@ -16,11 +16,11 @@ public protocol FormSource {
 
 public enum FormError {
     
-    case empty
-    case isNotEmail
-    case tooShort
-    case notEqualSources
-    case noSource
+    case empty(FormElement)
+    case isNotEmail(FormElement)
+    case tooShort(FormElement)
+    case notEqualSources(FormElement)
+    case noSource(FormElement)
 }
 
 public class FormElement {
@@ -100,22 +100,22 @@ public class FormElement {
     
     public func validate() -> FormError? {
         
-        guard let source = source else { return .noSource }
+        guard let source = source else { return .noSource(self) }
         
         if _required {
-            if (source.value ?? "").isEmpty { return .empty }
+            if (source.value ?? "").isEmpty { return .empty(self) }
         }
         
         if _isEmail {
-            if !(source.value ?? "").isValidEmail { return .isNotEmail }
+            if !(source.value ?? "").isValidEmail { return .isNotEmail(self) }
         }
         
         if let minLength = _minLength {
-            if (source.value ?? "").characters.count < minLength { return .tooShort }
+            if (source.value ?? "").characters.count < minLength { return .tooShort(self) }
         }
         
         if let equalSource = _mustBeEqualSource {
-            if equalSource.value != self.value { return .notEqualSources }
+            if equalSource.value != self.value { return .notEqualSources(self) }
         }
         
         return nil

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name           = 'SwiftTools'
-s.version        = '0.1.11
+s.version        = '0.1.12
 '
 s.summary        = "Swift tools kit to make your life easier."
 s.homepage       = "https://github.com/VladasZ/SwiftTools"
