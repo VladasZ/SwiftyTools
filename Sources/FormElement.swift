@@ -55,7 +55,12 @@ public class FormElement {
     
     public var error: String?
     
-    public init() { }
+    public init(required: Bool = false, isEmail: Bool = false, minLength: Int? = nil) {
+    
+        _required  = required
+        _isEmail   = isEmail
+        _minLength = minLength
+    }
     
     @discardableResult public func bindTo(_ source: FormSource) -> FormElement {
         
