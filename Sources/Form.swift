@@ -1,6 +1,6 @@
 //
 //  Form.swift
-//  swiftSand
+//  SwitfTools
 //
 //  Created by Vladas Zakrevskis on 4/24/17.
 //  Copyright © 2017 VladasZ. All rights reserved.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class LeForm {
+open class Form {
     
     open var elements: [FormElement] {
         return [FormElement]()
