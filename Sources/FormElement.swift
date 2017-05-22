@@ -14,7 +14,7 @@ public enum FormError {
     case isNotEmail(FormElement)
     case tooShort(FormElement)
     case tooLong(FormElement)
-    case notEqualSources(FormElement)
+    case notEqualElement(FormElement)
     case noSource(FormElement)
 }
 
@@ -25,7 +25,7 @@ public class FormElement {
     private var _trim      = true
     private var _minLength: Int?
     private var _maxLength: Int?
-    private var _mustBeEqualSource: FormSource?
+    private var _mustBeEqualElement: FormElement?
     
     var isNumeric = false
     var caption = ""
@@ -107,9 +107,9 @@ public class FormElement {
         return self 
     }
     
-    @discardableResult public func equalTo(_ source: FormSource) -> FormElement {
+    @discardableResult public func equalTo(_ element: FormElement) -> FormElement {
         
-        _mustBeEqualSource = source
+        _mustBeEqualElement = element
         return self
     }
     
@@ -139,8 +139,8 @@ public class FormElement {
             if (source.value ?? "").characters.count < minLength { return .tooShort(self) }
         }
         
-        if let equalSource = _mustBeEqualSource {
-            if equalSource.value != self.value { return .notEqualSources(self) }
+        if let equalElement = _mustBeEqualElement {
+            if equalElement.value != self.value { return .notEqualElement(self) }
         }
         
         return nil
