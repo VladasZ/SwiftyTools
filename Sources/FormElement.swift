@@ -27,8 +27,8 @@ public class FormElement {
     private var _maxLength: Int?
     private var _mustBeEqualElement: FormElement?
     
-    var isNumeric = false
-    var caption = ""
+    public var isNumeric = false
+    public var caption = ""
     
     public var source: FormSource?
     
