@@ -12,9 +12,10 @@ public typealias AlertConfigurationBlock = ((AlertConfiguration) -> ())?
 
 public class AlertConfiguration {
     
-    var cancelLabel: String = Alert.cancelLabel
-    var agreeLabel:  String = Alert.agreeLabel
-    var errorLabel:  String = Alert.errorLabel
+    public var cancelLabel: String = Alert.cancelLabel
+    public var agreeLabel:  String = Alert.agreeLabel
+    public var errorLabel:  String = Alert.errorLabel
+    public var textFieldConfiguration: ((UITextField) -> Swift.Void)? = nil
 }
 
 public struct Alert {
@@ -47,14 +48,14 @@ public struct Alert {
         topmostController.present(alert, animated: true, completion: nil)
     }
     
-    public static func textFieldWithTitle(_ title: String, configuration: AlertConfigurationBlock = nil, textFieldConfiguration: ((UITextField) -> Swift.Void)? = nil, agreeAction: ((String) -> ())?) {
+    public static func textFieldWithTitle(_ title: String, configuration: AlertConfigurationBlock = nil, agreeAction: ((String) -> ())?) {
         
         let conf = AlertConfiguration()
         configuration?(conf)
         
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         
-        alert.addTextField(configurationHandler: textFieldConfiguration)
+        alert.addTextField(configurationHandler: conf.textFieldConfiguration)
         alert.addAction(UIAlertAction(title: conf.cancelLabel, style: .destructive, handler: nil))
         alert.addAction(UIAlertAction(title: conf.agreeLabel, style: .default, handler: { action in
         
