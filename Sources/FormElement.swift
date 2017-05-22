@@ -28,6 +28,7 @@ public class FormElement {
     private var _mustBeEqualSource: FormSource?
     
     var isNumeric = false
+    var caption = ""
     
     public var source: FormSource?
     
@@ -69,6 +70,12 @@ public class FormElement {
         
         return self
     }
+    
+    @discardableResult public func setCaption(_ caption: String) -> FormElement {
+        
+        self.caption = caption
+        return self
+    }    
     
     @discardableResult public func required() -> FormElement {
         
