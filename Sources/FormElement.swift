@@ -8,28 +8,26 @@
 
 import Foundation
 
-public protocol FormSource {
-    
-    var value: String? { get set }
-    var intValue: Int? { get set }
-}
-
 public enum FormError {
     
     case empty(FormElement)
     case isNotEmail(FormElement)
     case tooShort(FormElement)
+    case tooLong(FormElement)
     case notEqualSources(FormElement)
     case noSource(FormElement)
 }
 
 public class FormElement {
     
-    private var _required = false
-    private var _isEmail  = false
-    private var _trim     = true
+    private var _required  = false
+    private var _isEmail   = false
+    private var _trim      = true
     private var _minLength: Int?
+    private var _maxLength: Int?
     private var _mustBeEqualSource: FormSource?
+    
+    var isNumeric = false
     
     public var source: FormSource?
     
@@ -65,6 +63,10 @@ public class FormElement {
     @discardableResult public func bindTo(_ source: FormSource) -> FormElement {
         
         self.source = source
+        self.source?.resetInputType()
+        if _isEmail  { self.source?.isEmail = true }
+        if isNumeric { self.source?.isNumeric = true }
+        
         return self
     }
     
@@ -77,6 +79,18 @@ public class FormElement {
     @discardableResult public func isEmail() -> FormElement {
         
         _isEmail = true
+        return self
+    }
+    
+    @discardableResult public func isNumber() -> FormElement {
+        
+        isNumeric = true
+        return self
+    }
+    
+    @discardableResult public func maxLength(_ maxLength: Int) -> FormElement {
+        
+        _maxLength = maxLength
         return self
     }
     
@@ -108,6 +122,10 @@ public class FormElement {
         
         if _isEmail {
             if !(source.value ?? "").isValidEmail { return .isNotEmail(self) }
+        }
+        
+        if let maxLength = _maxLength {
+            if (source.value ?? "").characters.count > maxLength { return .tooLong(self) }
         }
         
         if let minLength = _minLength {
