@@ -13,9 +13,9 @@ public class KeyboardAnimation {
     private static var height: CGFloat = 216
     private static var animationDuration: TimeInterval = 311
     private static var animationCurve: UIViewAnimationCurve! = nil
+    private static var frame: CGRect?
     
     public static var scrollView: UIScrollView? = nil
-    public static var frame: CGRect?
     public static var spaceBelow: CGFloat = 100
     
     public static func initialize () {
@@ -31,6 +31,11 @@ public class KeyboardAnimation {
                          name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     }
     
+    
+    public static func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        frame = textField.frame
+    }
     
     @objc private class func keyboardWillHide(notification: NSNotification) {
         
