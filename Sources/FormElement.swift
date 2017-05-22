@@ -37,6 +37,8 @@ public class FormElement {
         return source?.value == nil || source?.value == ""
     }
     
+    public var storedValue: String = ""
+    
     public var value: String? {
         get {
             if _trim { return source?.value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }
