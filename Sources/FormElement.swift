@@ -68,8 +68,9 @@ public class FormElement {
         
         self.source = source
         self.source?.resetInputType()
-        if _isEmail  { self.source?.isEmail = true }
-        if isNumeric { self.source?.isNumeric = true }
+        if _isEmail    { self.source?.isEmail    = true }
+        if isNumeric   { self.source?.isNumeric  = true }
+        if _isPassword { self.source?.isPassword = true }
         
         return self
     }
