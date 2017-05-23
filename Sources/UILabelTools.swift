@@ -10,6 +10,11 @@ import UIKit
 
 public extension UILabel {
     
+    @IBInspectable public var localizedString: String {
+        set { Log.info(NSLocalizedString(newValue, comment: "")); text = NSLocalizedString(newValue, comment: "") }
+        get { return "No localizedString getter" }
+    }
+    
     public func rectForString(_ string: String) -> CGRect? {
         
         guard let nsText = text as NSString? else { return nil }
