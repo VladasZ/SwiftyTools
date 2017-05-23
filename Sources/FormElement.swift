@@ -26,6 +26,7 @@ public class FormElement {
     private var _minLength: Int?
     private var _maxLength: Int?
     private var _mustBeEqualElement: FormElement?
+    private var _isPassword = false
     
     public var isNumeric = false
     public var caption = ""
@@ -94,6 +95,12 @@ public class FormElement {
     @discardableResult public func isNumber() -> FormElement {
         
         isNumeric = true
+        return self
+    }
+    
+    @discardableResult public func isPassword() -> FormElement {
+        
+        _isPassword = true
         return self
     }
     

@@ -10,6 +10,8 @@ import UIKit
 
 open class Form {
     
+    public var title: String = ""
+    
     open var elements: [FormElement] {
         return [FormElement]()
     }

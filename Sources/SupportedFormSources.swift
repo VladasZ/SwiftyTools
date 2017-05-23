@@ -10,10 +10,11 @@ import UIKit
 
 public protocol FormSource {
     
-    var value:     String? { get set }
-    var intValue:  Int?    { get set }
-    var isNumeric: Bool    { get set }
-    var isEmail:   Bool    { get set }
+    var value:      String? { get set }
+    var intValue:   Int?    { get set }
+    var isNumeric:  Bool    { get set }
+    var isPassword: Bool    { get set }
+    var isEmail:    Bool    { get set }
     func resetInputType()
 }
 
@@ -27,6 +28,14 @@ extension UITextField : FormSource {
         }
     }
     
+    public var isPassword: Bool {
+        get { return isSecureTextEntry == true }
+        set {
+            if newValue { isSecureTextEntry = true  }
+            else        { isSecureTextEntry = false }
+        }
+    }
+    
     public var isEmail: Bool {
         get { return keyboardType == .emailAddress }
         set {
@@ -45,7 +54,11 @@ extension UITextField : FormSource {
         set { text = String(describing: newValue) }
     }
     
-    public func resetInputType() { keyboardType = .default }
+    public func resetInputType() {
+        
+        keyboardType = .default
+        isSecureTextEntry = false
+    }
 }
 
 extension UITextView : FormSource {
@@ -58,6 +71,14 @@ extension UITextView : FormSource {
         }
     }
     
+    public var isPassword: Bool {
+        get { return isSecureTextEntry == true }
+        set {
+            if newValue { isSecureTextEntry = true  }
+            else        { isSecureTextEntry = false }
+        }
+    }
+    
     public var isEmail: Bool {
         get { return keyboardType == .emailAddress }
         set {
@@ -76,6 +97,10 @@ extension UITextView : FormSource {
         set { text = String(describing: newValue) }
     }
     
-    public func resetInputType() { keyboardType = .default }
+    public func resetInputType() {
+        
+        keyboardType = .default
+        isSecureTextEntry = false
+    }
 }
 
