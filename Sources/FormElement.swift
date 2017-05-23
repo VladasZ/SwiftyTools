@@ -30,6 +30,7 @@ public class FormElement {
     
     public var isNumeric = false
     public var caption = ""
+    public var customType: String?
     
     public var source: FormSource?
     
@@ -39,6 +40,7 @@ public class FormElement {
     }
     
     public var storedValue: String = ""
+    public var customStoredValue: [String : Any]?
     
     public var value: String? {
         get {
@@ -48,6 +50,11 @@ public class FormElement {
         set {
             source?.value = newValue
         }
+    }
+    
+    public var customValue: [String : Any]? {
+        get { return source?.customValue }
+        set { source?.customValue = newValue }
     }
     
     public var intValue: Int? {
