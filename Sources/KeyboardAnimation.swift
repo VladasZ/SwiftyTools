@@ -39,6 +39,8 @@ public class KeyboardAnimation {
     
     @objc private class func keyboardWillHide(notification: NSNotification) {
         
+        if scrollView == nil { return }
+        
         let point = CGPoint(x:0, y:0)
         
         let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
@@ -56,6 +58,8 @@ public class KeyboardAnimation {
     }
     
     @objc private class func keyboardWillShow(notification: NSNotification) {
+        
+        if scrollView == nil { return }
         
         var offset = KeyboardAnimation.height
         
