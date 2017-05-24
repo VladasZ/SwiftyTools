@@ -27,7 +27,10 @@ public class FormElement {
     private var _maxLength: Int?
     private var _mustBeEqualElement: FormElement?
     private var _isPassword = false
+    private var _range: CountableClosedRange<Int>? { didSet { didSetRange(_range) } }
+    private var _rangeArray: [String]?
     
+    public var isDropDown: Bool { return _rangeArray != nil }
     public var isNumeric = false
     public var caption = ""
     public var customType: String?
@@ -86,7 +89,19 @@ public class FormElement {
         
         self.caption = caption
         return self
-    }    
+    }
+    
+    @discardableResult public func setRange(_ elements: [String]) -> FormElement {
+        
+        _rangeArray = elements
+        return self
+    }
+    
+    @discardableResult public func setRange(_ elements: CountableClosedRange<Int>) -> FormElement {
+        
+        _range = elements
+        return self
+    }
     
     @discardableResult public func required() -> FormElement {
         
@@ -161,5 +176,16 @@ public class FormElement {
         }
         
         return nil
+    }
+    
+    //MARK: - Additional methods
+    
+    private func didSetRange(_ range: CountableClosedRange<Int>?) {
+        
+        guard let range = range else { return }
+        
+        var array = [String]()
+        for i in range { array.append(String(i)) }
+        _rangeArray = array
     }
 }
