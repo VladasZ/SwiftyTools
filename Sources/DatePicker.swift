@@ -10,6 +10,7 @@ import UIKit
 
 fileprivate var _backgroundColor = UIColor.gray
 fileprivate var _doneButtonTextAligment: UIControlContentHorizontalAlignment = .center
+fileprivate var _onFinishPicking: (() -> ())?
 
 public class DatePicker : UIView {
     
@@ -31,6 +32,11 @@ public class DatePicker : UIView {
     private static var hasDoneButton: Bool { return doneButtonTitle != nil }
     
     private(set) public static var isHidden: Bool = true
+    
+    public static func onFinishPicking(_ action: @escaping () -> ()) {
+        
+        _onFinishPicking = action
+    }
     
     //MARK: - Initialization
     init(frame: CGRect, hasDoneButton: Bool) {
@@ -125,6 +131,7 @@ public class DatePicker : UIView {
     
     func didPressDoneButton() {
         
+        _onFinishPicking?()
         DatePicker.finish()
     }
 }
