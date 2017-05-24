@@ -13,13 +13,18 @@ fileprivate let dateTimeFormatter    = DateFormatter("HH:mm dd-MM-yyyy")
 fileprivate let dateFormatter        = DateFormatter("dd-MM-yyyy")
 fileprivate let hourMinTimeFormatter = DateFormatter("HH:mm")
 fileprivate let minSecTimeFormatter  = DateFormatter("mm:ss")
+fileprivate var dateFormatterLocale: Locale?
 
 public extension DateFormatter {
     
+    public static func setLocale(_ locale: Locale) { dateFormatterLocale = locale }
+
     public convenience init(_ format: String) {
         
         self.init()
         self.dateFormat = format
+        
+        if let locale = dateFormatterLocale { self.locale = locale }
     }
 }
 
