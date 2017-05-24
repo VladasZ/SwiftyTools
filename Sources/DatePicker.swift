@@ -9,6 +9,7 @@
 import UIKit
 
 fileprivate var _backgroundColor = UIColor.gray
+fileprivate var _doneButtonTextAligment: UIControlContentHorizontalAlignment = .center
 
 public class DatePicker : UIView {
     
@@ -16,6 +17,7 @@ public class DatePicker : UIView {
     
     private static var height: CGFloat = 215.0
     private static var doneButtonHeight: CGFloat = 50
+    private static var doneButtonMargin: CGFloat = 24
     public static var locale: Locale?
     public static var doneButtonTitle: String?
     private static var pickerView: UIDatePicker!
@@ -23,6 +25,8 @@ public class DatePicker : UIView {
     private static var completion: ((Date?) -> ())!
     
     public static func setBackgroundColor(_ color: UIColor) { _backgroundColor = color }
+    public static func setDoneButtonTextAligment(_ aligment: UIControlContentHorizontalAlignment)
+        { _doneButtonTextAligment = aligment  }
     
     private static var hasDoneButton: Bool { return doneButtonTitle != nil }
     
@@ -51,13 +55,14 @@ public class DatePicker : UIView {
         
         if hasDoneButton {
             
-            let button = UIButton(frame: CGRect(x: 0,
+            let button = UIButton(frame: CGRect(x: DatePicker.doneButtonMargin,
                                                 y: 0,
-                                                width: frame.size.width,
+                                                width: frame.size.width - DatePicker.doneButtonMargin * 2,
                                                 height: DatePicker.doneButtonHeight))
             
             button.setTitleColor(UIColor.black, for: .normal)
             button.setTitle(DatePicker.doneButtonTitle, for: .normal)
+            button.contentHorizontalAlignment = _doneButtonTextAligment
             
             addSubview(button)
             
