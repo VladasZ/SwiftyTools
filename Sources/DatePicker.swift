@@ -8,37 +8,61 @@
 
 import UIKit
 
+fileprivate var _backgroundColor = UIColor.gray
 
 public class DatePicker : UIView {
     
     //MARK: - Properties
     
-    public static var height: CGFloat = 215.0
-    public static var backgroundColor: UIColor = UIColor.gray
+    private static var height: CGFloat = 215.0
+    private static var doneButtonHeight: CGFloat = 50
     public static var locale: Locale?
+    public static var doneButtonTitle: String?
     private static var pickerView: UIDatePicker!
     private static var picker: DatePicker!
     private static var completion: ((Date?) -> ())!
     
+    public static func setBackgroundColor(_ color: UIColor) { _backgroundColor = color }
+    
+    private static var hasDoneButton: Bool { return doneButtonTitle != nil }
     
     private(set) public static var isHidden: Bool = true
     
     //MARK: - Initialization
-    override init(frame: CGRect) {
+    init(frame: CGRect, hasDoneButton: Bool) {
         
         super.init(frame: frame)
         
-        DatePicker.pickerView = UIDatePicker(frame: CGRect(x: 0,
-                                                y: 0,
-                                                width: frame.size.width,
-                                                height: frame.size.height))
+        DatePicker.pickerView
+            = UIDatePicker(frame:
+                CGRect(x: 0,
+                       y: (DatePicker.hasDoneButton ? DatePicker.doneButtonHeight : 0),
+                       width: frame.size.width,
+                       height: frame.size.height - (DatePicker.hasDoneButton ? DatePicker.doneButtonHeight : 0)))
         
         if let locale = DatePicker.locale { DatePicker.pickerView.locale = locale }
         
-        DatePicker.pickerView.backgroundColor = DatePicker.backgroundColor
+        DatePicker.pickerView.backgroundColor = _backgroundColor
+        backgroundColor = _backgroundColor
         
         DatePicker.pickerView.datePickerMode = .date
         addSubview(DatePicker.pickerView)
+        
+        
+        if hasDoneButton {
+            
+            let button = UIButton(frame: CGRect(x: 0,
+                                                y: 0,
+                                                width: frame.size.width,
+                                                height: DatePicker.doneButtonHeight))
+            
+            button.setTitleColor(UIColor.black, for: .normal)
+            button.setTitle(DatePicker.doneButtonTitle, for: .normal)
+            
+            addSubview(button)
+            
+            button.addTarget(self, action: #selector(didPressDoneButton), for: .touchUpInside)
+        }
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -49,16 +73,10 @@ public class DatePicker : UIView {
     
     public static func pick(_ completion:@escaping (Date?) -> ()) {
         
-        let window = keyWindow
-        
-        picker = DatePicker(frame:CGRect(x:0,
-                                         y: window.frame.size.height,
-                                         width: window.frame.size.width,
-                                         height: DatePicker.height))
-        
+        picker = createPicker()
         self.completion = completion
         
-        window.addSubview(picker)
+        keyWindow.addSubview(picker)
         picker.hide(false, nil)
         isHidden = false
     }
@@ -72,15 +90,36 @@ public class DatePicker : UIView {
         picker.hide(true)
     }
     
+    //MARK: - UI
+    
+    private static func createPicker() -> DatePicker {
+        
+        return DatePicker(frame:CGRect(x:      0,
+                                       y:      keyWindow.frame.size.height,
+                                       width:  keyWindow.frame.size.width,
+                                       height: height + (hasDoneButton ? doneButtonHeight : 0)),
+                          hasDoneButton: hasDoneButton)
+    }
+    
     //MARK: - Animation
     
     func hide(_ hide:Bool, _ completion:((Bool) -> Void)? = nil) {
         
         let screenHeight = keyWindow.frame.size.height
-        let newPosition = hide ? screenHeight : screenHeight - DatePicker.height
+        let newPosition =
+            hide ?
+                screenHeight :
+                screenHeight - (DatePicker.height + (DatePicker.hasDoneButton ? DatePicker.doneButtonHeight : 0))
         
         UIView.animate(withDuration: 0.211,
                        animations: { self.frame.origin.y = newPosition },
                        completion: completion)
+    }
+    
+    //MARK: - Actions
+    
+    func didPressDoneButton() {
+        
+        DatePicker.finish()
     }
 }
