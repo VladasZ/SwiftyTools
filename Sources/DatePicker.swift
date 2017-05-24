@@ -15,6 +15,7 @@ public class DatePicker : UIView {
     
     public static var height: CGFloat = 215.0
     public static var backgroundColor: UIColor = UIColor.gray
+    public static var locale: Locale?
     private static var pickerView: UIDatePicker!
     private static var picker: DatePicker!
     private static var completion: ((Date?) -> ())!
@@ -31,6 +32,8 @@ public class DatePicker : UIView {
                                                 y: 0,
                                                 width: frame.size.width,
                                                 height: frame.size.height))
+        
+        if let locale = DatePicker.locale { DatePicker.pickerView.locale = locale }
         
         DatePicker.pickerView.backgroundColor = DatePicker.backgroundColor
         
