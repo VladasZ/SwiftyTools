@@ -55,6 +55,8 @@ public class FormElement {
         }
     }
     
+    public var range: [String]? { return _rangeArray }
+    
     public var customValue: [String : Any]? {
         get { return source?.customValue }
         set { source?.customValue = newValue }
