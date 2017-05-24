@@ -29,6 +29,7 @@ public class FormElement {
     private var _isPassword = false
     private var _range: CountableClosedRange<Int>? { didSet { didSetRange(_range) } }
     private var _rangeArray: [String]?
+    private var _rangePostfix: String?
     
     public var isDropDown: Bool { return _rangeArray != nil }
     public var isNumeric = false
@@ -56,6 +57,7 @@ public class FormElement {
     }
     
     public var range: [String]? { return _rangeArray }
+    public var rangePostfix: String? { return _rangePostfix }
     
     public var customValue: [String : Any]? {
         get { return source?.customValue }
@@ -102,6 +104,12 @@ public class FormElement {
     @discardableResult public func setRange(_ elements: CountableClosedRange<Int>) -> FormElement {
         
         _range = elements
+        return self
+    }
+    
+    @discardableResult public func setRangePostfix(_ postfix: String) -> FormElement {
+        
+        _rangePostfix = postfix
         return self
     }
     
