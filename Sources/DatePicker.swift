@@ -86,6 +86,8 @@ public class DatePicker : UIView {
     
     public static func pick(_ completion:@escaping (Date?) -> ()) {
         
+        if !isHidden { return }
+        
         picker = createPicker()
         self.completion = completion
         
