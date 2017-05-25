@@ -32,6 +32,7 @@ public class DatePicker : UIView {
     private static var hasDoneButton: Bool { return doneButtonTitle != nil }
     
     private(set) public static var isHidden: Bool = true
+    public static var date: Date = Date()
     
     public static func onFinishPicking(_ action: @escaping () -> ()) {
         
@@ -53,6 +54,7 @@ public class DatePicker : UIView {
         if let locale = DatePicker.locale { DatePicker.pickerView.locale = locale }
         
         DatePicker.pickerView.backgroundColor = _backgroundColor
+        DatePicker.pickerView.date = DatePicker.date
         backgroundColor = _backgroundColor
         
         DatePicker.pickerView.datePickerMode = .date
@@ -86,6 +88,8 @@ public class DatePicker : UIView {
         
         picker = createPicker()
         self.completion = completion
+        
+        DatePicker.pickerView.date = DatePicker.date
         
         keyWindow.addSubview(picker)
         picker.hide(false, nil)
