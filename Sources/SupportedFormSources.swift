@@ -10,7 +10,7 @@ import UIKit
 
 public protocol FormSource {
     
-    var customValue: [String : Any]? { get set }
+    var customValue: Any? { get set }
     var value:      String? { get set }
     var intValue:   Int?    { get set }
     var isNumeric:  Bool    { get set }
@@ -21,7 +21,7 @@ public protocol FormSource {
 
 public extension FormSource {
     
-    var customValue: [String : Any]? { get { return nil } set { } }
+    var customValue: Any? { get { return nil } set { } }
     var value:      String? { get { return nil } set { } }
     var intValue:   Int?    { get { return nil } set { } }
     var isNumeric:  Bool    { get { return false } set { } }

@@ -44,7 +44,7 @@ public class FormElement {
     }
     
     public var storedValue: String = ""
-    public var customStoredValue: [String : Any]?
+    public var customStoredValue: Any?
     
     public var value: String? {
         get {
@@ -59,7 +59,7 @@ public class FormElement {
     public var range: [String]? { return _rangeArray }
     public var rangePostfix: String? { return _rangePostfix }
     
-    public var customValue: [String : Any]? {
+    public var customValue: Any? {
         get { return source?.customValue }
         set { source?.customValue = newValue }
     }
