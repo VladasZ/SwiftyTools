@@ -1,5 +1,5 @@
 //
-//  Photo.swift
+//  Media.swift
 //  SwiftTools
 //
 //  Created by Vladas Zakrevskis on 2/10/17.
@@ -11,18 +11,21 @@ import Photos
 import CoreGraphics
 import CoreImage
 
-public class Photo : UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+public class Media : UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     //MARK: - Strings
     
-    public static var pickDescription:String = "Add photo"
-    public static var pickFromGalleryCaption:String = "Pick from gallery"
-    public static var takePhotoCaption:String = "Take a photo"
-    public static var cancelCaption:String = "Cancel"
+    public static var pickDescription: String = "Add media"
+    public static var pickPhotoCaption: String = "Pick a photo from gallery"
+    public static var takePhotoCaption: String = "Take a photo"
+    public static var pickVideoCaption: String = "Pick a video from gallery"
+    public static var recordVideoCaption: String = "Take a video"
+    public static var cancelCaption: String = "Cancel"
     
+    public static var videoEnabled: Bool = false
     
-    public static var askForLibraryPermissionMessage:String = "Application needs access to your photo library."
-    public static var askForCameraPermissionMessage:String = "Application needs access to your camera."
+    public static var askForLibraryPermissionMessage: String = "Application needs access to your library."
+    public static var askForCameraPermissionMessage: String  = "Application needs access to your camera."
     public static var openSettingsTitle:String = "Settings"
     
     private static var completion: ((UIImage) -> ())?
@@ -31,29 +34,61 @@ public class Photo : UIViewController, UINavigationControllerDelegate, UIImagePi
     
     public static func get(_ completion:@escaping (UIImage) -> ()) {
         
-        if photoDialog == nil { setPhotoDialog() }
+        if photoDialog == nil { setMediaDialog() }
         
         topmostController.present(photoDialog!, animated: true, completion: nil)
 
         self.completion = completion
     }
     
-    private static func pick(_ completion:@escaping (UIImage) -> ()) {
+    private static func pickVideo(_ completion:@escaping (UIImage) -> ()) {
         
         checkLibraryPermission {
             
-            let controller = Photo()
+            let controller = Media()
+            
+            controller.sourceType = .camera
+            controller.captureMode = .video
             
             controller.completion = completion
             topmostController.present(controller, animated: true)
         }
     }
     
-    private static func take(_ completion:@escaping (UIImage) -> ()) {
+    private static func recordVideo(_ completion:@escaping (UIImage) -> ()) {
+        
+        checkLibraryPermission {
+            
+            let controller = Media()
+            
+            controller.sourceType = .photoLibrary
+            controller.captureMode = .video
+            controller.mediaTypes = ["public.movie"]
+            
+            controller.completion = completion
+            topmostController.present(controller, animated: true)
+        }
+    }
+    
+    private static func pickPhoto(_ completion:@escaping (UIImage) -> ()) {
+        
+        checkLibraryPermission {
+            
+            let controller = Media()
+            
+            
+            controller.sourceType = .photoLibrary
+            
+            controller.completion = completion
+            topmostController.present(controller, animated: true)
+        }
+    }
+    
+    private static func takePhoto(_ completion:@escaping (UIImage) -> ()) {
         
         checkCameraPermission {
             
-            let controller = Photo()
+            let controller = Media()
             
             controller.sourceType = .camera
             
@@ -122,14 +157,18 @@ public class Photo : UIViewController, UINavigationControllerDelegate, UIImagePi
     private var completion:((UIImage) -> ())?
     
     private var sourceType: UIImagePickerControllerSourceType = .photoLibrary
+    private var captureMode: UIImagePickerControllerCameraCaptureMode = .photo
+    private var mediaTypes: [String] = [String]()
     
     override public func viewDidLoad() {
         super.viewDidLoad()
         
         let picker = UIImagePickerController()
         
-        picker.sourceType = sourceType
-        picker.delegate = self
+//        picker.sourceType = sourceType
+//        picker.cameraCaptureMode = captureMode
+//        picker.mediaTypes = mediaTypes
+//        picker.delegate = self
         
         view.addSubview(picker.view)
         addChildViewController(picker)
@@ -147,25 +186,44 @@ public class Photo : UIViewController, UINavigationControllerDelegate, UIImagePi
     
     //MARK: Dialog
     
-    private static func setPhotoDialog() {
+    private static func setMediaDialog() {
         
         photoDialog = UIAlertController(title: pickDescription, message: nil, preferredStyle: .actionSheet)
         
-        photoDialog?.addAction(UIAlertAction(title: pickFromGalleryCaption, style: .default) { action in
+        photoDialog?.addAction(UIAlertAction(title: pickPhotoCaption, style: .default) { action in
             
-            Photo.pick { image in
+            Media.pickPhoto { image in
                 
-                Photo.completion?(image)
+                Media.completion?(image)
             }
         })
         
         photoDialog?.addAction(UIAlertAction(title: takePhotoCaption, style: .default) { action in
             
-            Photo.take { image in
+            Media.takePhoto { image in
                 
-                Photo.completion?(image)
+                Media.completion?(image)
             }
         })
+        
+        if videoEnabled {
+            
+            photoDialog?.addAction(UIAlertAction(title: pickVideoCaption, style: .default) { action in
+                
+                Media.pickVideo { image in
+                    
+                    Media.completion?(image)
+                }
+            })
+            
+            photoDialog?.addAction(UIAlertAction(title: recordVideoCaption, style: .default) { action in
+                
+                Media.recordVideo { image in
+                    
+                    Media.completion?(image)
+                }
+            })
+        }
         
         photoDialog?.addAction(UIAlertAction(title: cancelCaption, style: .cancel, handler: nil))
     }

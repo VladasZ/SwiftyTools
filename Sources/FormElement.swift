@@ -14,6 +14,7 @@ public enum FormError {
     case isNotEmail(FormElement)
     case tooShort(FormElement)
     case tooLong(FormElement)
+    case invalidLength(FormElement)
     case notEqualElement(FormElement)
     case noSource(FormElement)
 }
@@ -25,6 +26,7 @@ public class FormElement {
     private var _trim      = true
     private var _minLength: Int?
     private var _maxLength: Int?
+    private var _exactLength: Int?
     private var _mustBeEqualElement: FormElement?
     private var _isPassword = false
     private var _range: CountableClosedRange<Int>? { didSet { didSetRange(_range) } }
@@ -40,29 +42,19 @@ public class FormElement {
     
     public var isEmpty: Bool {
         
-        return source?.value == nil || source?.value == ""
+        return value == ""
     }
     
-    public var storedValue: String = ""
-    public var customStoredValue: Any?
-    
-    public var value: String? {
-        get {
-            if _trim { return source?.value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }
-            return source?.value
-        }
-        set {
-            source?.value = newValue
+    public var value: String = "" {
+        didSet {
+            source?.value = value
         }
     }
     
     public var range: [String]? { return _rangeArray }
     public var rangePostfix: String? { return _rangePostfix }
     
-    public var customValue: Any? {
-        get { return source?.customValue }
-        set { source?.customValue = newValue }
-    }
+    public var customValue: Any?
     
     public var intValue: Int? {
         get { return source?.intValue }
@@ -137,6 +129,12 @@ public class FormElement {
         return self
     }
     
+    @discardableResult public func exactLength(_ exactLength: Int) -> FormElement {
+        
+        _exactLength = exactLength
+        return self
+    }
+    
     @discardableResult public func maxLength(_ maxLength: Int) -> FormElement {
         
         _maxLength = maxLength
@@ -183,6 +181,11 @@ public class FormElement {
         
         if let equalElement = _mustBeEqualElement {
             if equalElement.value != self.value { return .notEqualElement(self) }
+        }
+        
+        if let exactLength = _exactLength {
+            
+            if value.characters.count != exactLength { return .invalidLength(self) }
         }
         
         return nil
