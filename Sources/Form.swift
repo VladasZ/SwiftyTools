@@ -11,6 +11,7 @@ import UIKit
 open class Form {
     
     public var title: String = ""
+    public var caption: String = ""
     
     open var elements: [FormElement] {
         return [FormElement]()
