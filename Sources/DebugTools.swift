@@ -10,6 +10,13 @@ import UIKit
 
 public class Debug {
     
+    public static var notImplementedMessage = "Not implemented yet"
+    
+    public static func notImplemented() {
+        
+        Alert.show(notImplementedMessage)
+    }
+    
     public static func check(_ object: Any?, error: String) {
         
         if object == nil { Log.error(error) }
