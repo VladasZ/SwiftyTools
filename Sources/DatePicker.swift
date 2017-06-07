@@ -23,7 +23,7 @@ public class DatePicker : UIView {
     public static var doneButtonTitle: String?
     private static var pickerView: UIDatePicker!
     private static var picker: DatePicker!
-    private static var completion: ((Date?) -> ())!
+    private static var completion: ((Date) -> ())!
     
     public static func setBackgroundColor(_ color: UIColor) { _backgroundColor = color }
     public static func setDoneButtonTextAligment(_ aligment: UIControlContentHorizontalAlignment)
@@ -84,7 +84,7 @@ public class DatePicker : UIView {
     
     //MARK: - Appearance
     
-    public static func pick(_ completion:@escaping (Date?) -> ()) {
+    public static func pick(_ completion: @escaping (Date) -> ()) {
         
         if !isHidden { return }
         
