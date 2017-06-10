@@ -77,6 +77,11 @@ public extension Date {
     
     private static let cal = Calendar(identifier: .gregorian)
     
+    public func isEqualDayTo(_ date: Date) -> Bool {
+        
+        return self.withoutTimeComponent == date.withoutTimeComponent
+    }
+    
     public var withoutTimeComponent: Date {
         
         return Date.cal.date(bySetting: .minute, value: 0, of: Date.cal.date(bySetting: .hour, value: 0, of: self)!)!
