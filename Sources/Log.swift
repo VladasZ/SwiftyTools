@@ -15,24 +15,26 @@ fileprivate enum LogType {
     case error
 }
 
+fileprivate let noMessageString = "noMessageString"
+
 public class Log {
     
-    public static func info(_ message: Any? = nil, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+    public static func info(_ message: Any? = noMessageString, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
         
         log(message, withType: .info, file, function, line)
     }
     
-    public static func warning(_ message: Any? = nil, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+    public static func warning(_ message: Any? = noMessageString, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
         
         log(message, withType: .warning, file, function, line)
     }
     
-    public static func error(_ message: Any? = nil, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+    public static func error(_ message: Any? = noMessageString, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
         
         log(message, withType: .error, file, function, line)
     }
     
-    private static func log(_ message: Any? = nil, withType type:LogType, _ file:String, _ function:String, _ line:Int) {
+    private static func log(_ message: Any?, withType type:LogType, _ file:String, _ function:String, _ line:Int) {
         
         var typeString: String
         let file = file.lastPathComponent.replacingOccurrences(of: ".swift", with: "")
@@ -47,7 +49,12 @@ public class Log {
         
         logMessage.append("[\(file)::\(function) - \(line)]")
         
-        if let message = message { logMessage.append(" " + String(describing: message)) }
+        if message as? String != noMessageString {
+         
+            if let message = message { logMessage.append(" " + String(describing: message)) }
+            else                     { logMessage.append(" nil") }
+        }
+        
         
         print(logMessage)
     }
