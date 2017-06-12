@@ -23,7 +23,7 @@ public class DatePicker : UIView {
     public static var doneButtonTitle: String?
     private static var pickerView: UIDatePicker!
     private static var picker: DatePicker!
-    private static var completion: ((Date?) -> ())!
+    private static var completion: ((Date) -> ())!
     
     public static func setBackgroundColor(_ color: UIColor) { _backgroundColor = color }
     public static func setDoneButtonTextAligment(_ aligment: UIControlContentHorizontalAlignment)
@@ -40,7 +40,7 @@ public class DatePicker : UIView {
     }
     
     //MARK: - Initialization
-    init(frame: CGRect, hasDoneButton: Bool) {
+    init(frame: CGRect, hasDoneButton: Bool, configuration: ((UIDatePicker) -> ())? = nil) {
         
         super.init(frame: frame)
         
@@ -58,8 +58,10 @@ public class DatePicker : UIView {
         backgroundColor = _backgroundColor
         
         DatePicker.pickerView.datePickerMode = .date
-        addSubview(DatePicker.pickerView)
         
+        configuration?(DatePicker.pickerView)
+        
+        addSubview(DatePicker.pickerView)
         
         if hasDoneButton {
             
@@ -84,11 +86,11 @@ public class DatePicker : UIView {
     
     //MARK: - Appearance
     
-    public static func pick(_ completion:@escaping (Date?) -> ()) {
+    public static func pick(_ configuration: ((UIDatePicker) -> ())? = nil, _ completion: @escaping (Date) -> ()) {
         
         if !isHidden { return }
         
-        picker = createPicker()
+        picker = createPicker(configuration)
         self.completion = completion
         
         DatePicker.pickerView.date = DatePicker.date
@@ -109,13 +111,14 @@ public class DatePicker : UIView {
     
     //MARK: - UI
     
-    private static func createPicker() -> DatePicker {
+    private static func createPicker(_ configuration: ((UIDatePicker) -> ())?) -> DatePicker {
         
         return DatePicker(frame:CGRect(x:      0,
                                        y:      keyWindow.frame.size.height,
                                        width:  keyWindow.frame.size.width,
                                        height: height + (hasDoneButton ? doneButtonHeight : 0)),
-                          hasDoneButton: hasDoneButton)
+                          hasDoneButton: hasDoneButton,
+                          configuration: configuration)
     }
     
     //MARK: - Animation

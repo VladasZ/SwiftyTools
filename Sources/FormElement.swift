@@ -105,27 +105,27 @@ public class FormElement {
         return self
     }
     
-    @discardableResult public func required() -> FormElement {
+    @discardableResult public func required(_ required: Bool = true) -> FormElement {
         
-        _required = true
+        _required = required
         return self
     }
     
-    @discardableResult public func isEmail() -> FormElement {
+    @discardableResult public func isEmail(_ isEmail: Bool = true) -> FormElement {
         
-        _isEmail = true
+        _isEmail = isEmail
         return self
     }
     
-    @discardableResult public func isNumber() -> FormElement {
+    @discardableResult public func isNumber(_ isNumber: Bool = true) -> FormElement {
         
-        isNumeric = true
+        isNumeric = isNumber
         return self
     }
     
-    @discardableResult public func isPassword() -> FormElement {
+    @discardableResult public func isPassword(_ isPassword: Bool = true) -> FormElement {
         
-        _isPassword = true
+        _isPassword = isPassword
         return self
     }
     

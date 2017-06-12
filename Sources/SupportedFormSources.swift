@@ -56,7 +56,7 @@ extension UITextField : FormSource {
     
     public var value: String? {
         get { return text }
-        set { Log.error() }
+        set {  }
     }
     
     public var intValue: Int? {
