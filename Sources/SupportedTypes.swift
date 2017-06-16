@@ -8,9 +8,9 @@
 
 import Foundation
 
-protocol NodeSupportedType { }
+public protocol NodeSupportedType { }
 
-extension Bool   : NodeSupportedType { }
-extension Int    : NodeSupportedType { }
-extension Double : NodeSupportedType { }
-extension String : NodeSupportedType { }
+public extension Bool   : NodeSupportedType { }
+public extension Int    : NodeSupportedType { }
+public extension Double : NodeSupportedType { }
+public extension String : NodeSupportedType { }

@@ -8,13 +8,13 @@
 
 import Foundation
 
-protocol NodeConvertible : class {
+public protocol NodeConvertible : class {
     
     init(data: Data?) throws
     init(node: Node) throws
 }
 
-extension NodeConvertible {
+public extension NodeConvertible {
     
     init(data: Data?) throws {
         
@@ -24,7 +24,7 @@ extension NodeConvertible {
     }
 }
 
-extension Array where Element: NodeConvertible {
+public extension Array where Element: NodeConvertible {
     
     init(data: Data?) throws {
         

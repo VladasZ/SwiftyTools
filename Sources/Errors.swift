@@ -8,17 +8,17 @@
 
 import Foundation
 
-class FailedToInitializeNodeError : Error {
+public class FailedToInitializeNodeError : Error {
     
     var localizedDescription: String { return "Failed to initialize node" }
 }
 
-class FailedToConvertNodeError : Error {
+public class FailedToConvertNodeError : Error {
     
     var localizedDescription: String { return "Failed to convert node" }
 }
 
-class FailedToExtractNodeError : Error {
+public class FailedToExtractNodeError : Error {
     
     var localizedDescription: String { return "Failed to extract node" }
 }

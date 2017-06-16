@@ -8,24 +8,24 @@
 
 import Foundation
 
-class Node {
+public class Node {
     
     //MARK: - Properties
     
     private var value: Any!
     
-    var String: String? { return value as? String }
-    var Int:    Int?    { return value as? Int    }
-    var Double: Double? { return value as? Double }
-    var Bool:   Bool?   { return value as? Bool   }
+    public var String: String? { return value as? String }
+    public var Int:    Int?    { return value as? Int    }
+    public var Double: Double? { return value as? Double }
+    public var Bool:   Bool?   { return value as? Bool   }
     
-    var Array:  [Node]? {
+    public var Array:  [Node]? {
         
         guard let array = value as? [Any] else { return nil }
         return array.map { Node(value: $0) }
     }
     
-    subscript (_ key: String) -> Node? {
+    public subscript (_ key: String) -> Node? {
         
         guard let dict = value as? [String : Any] else { return nil }
         guard let value = dict[key] else { return nil }
@@ -34,26 +34,26 @@ class Node {
     
     //MARK: - Extraction
     
-    func extract<T>(_ key: String) throws -> T {
+    public func extract<T>(_ key: String) throws -> T {
         
         guard let value: T = self[key]?.value as? T else { Log.error(key); throw FailedToExtractNodeError() }
         return value
     }
     
-    func extract<T, T2>(_ key: String, _ convert: (T2) -> T) throws -> T  {
+    public func extract<T, T2>(_ key: String, _ convert: (T2) -> T) throws -> T  {
         
         guard let value = self[key]?.value as? T2 else { Log.error(key); throw FailedToConvertNodeError() }
         return convert(value)
     }
     
-    func extract<T>(_ key: String) throws -> [T] where T : NodeSupportedType {
+    public func extract<T>(_ key: String) throws -> [T] where T : NodeSupportedType {
         
         guard let array = self[key]?.Array else { Log.error(key); throw FailedToExtractNodeError() }
         guard let result = (array.map { $0.value }) as? [T] else { Log.error(key); throw FailedToExtractNodeError() }
         return result
     }
     
-    func extract<T, T2>(_ key: String, _ convert: @escaping (T2) -> T) throws -> [T] where T : NodeSupportedType {
+    public func extract<T, T2>(_ key: String, _ convert: @escaping (T2) -> T) throws -> [T] where T : NodeSupportedType {
         
         guard let array = self[key]?.Array else { Log.error(key); throw FailedToExtractNodeError() }
 
@@ -63,7 +63,7 @@ class Node {
         }
     }
     
-    func extract<T>(_ key: String) throws -> [T] where T : NodeConvertible {
+    public func extract<T>(_ key: String) throws -> [T] where T : NodeConvertible {
         
         guard let data = self[key],
               data.Array != nil
@@ -74,12 +74,12 @@ class Node {
     
     //MARK: - Initialization
     
-    init(value: Any) {
+    public init(value: Any) {
         
         self.value = value
     }
     
-    init?(data: Data?) {
+    public init?(data: Data?) {
         
         guard let data = data else { return }
         guard let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) else { return }
