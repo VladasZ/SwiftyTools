@@ -26,8 +26,9 @@ fileprivate struct SignalSubscriber : Hashable {
 public class Signal {
     
     private var subscribers = [String : SignalSubscriber]()
+    private var linked: Signal?
     
-    public init () { }
+    public init(linked: Signal? = nil) { self.linked = linked }
     
     public func subscribe(_ file: String = #file, _ line: Int = #line, _ action: @escaping () -> ()) {
         
@@ -44,6 +45,10 @@ public class Signal {
     
     public func fire() {
         
-        DispatchQueue.main.async { for (_, element) in self.subscribers { element.action() } }
+        DispatchQueue.main.async {
+            
+            if let linked = self.linked { for (_, element) in linked.subscribers { element.action() } }
+            for (_, element) in self.subscribers { element.action() }
+        }
     }
 }
