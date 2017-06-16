@@ -3,7 +3,7 @@
 //  SwiftTools
 //
 //  Created by Vladas Zakrevskis on 2/8/17.
-//  Copyright © 2017 Almet Systems. All rights reserved.
+//  Copyright © 2017 VladasZ All rights reserved.
 //
 
 import UIKit
