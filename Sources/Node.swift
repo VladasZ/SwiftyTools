@@ -40,6 +40,12 @@ public class Node {
         return value
     }
     
+    public func extract<T>(_ key: String) throws -> T where T : NodeConvertible {
+        
+        guard let node = self[key] else { Log.error(key); throw FailedToExtractNodeError() }
+        return try T(node: node)
+    }
+    
     public func extract<T, T2>(_ key: String, _ convert: (T2) -> T) throws -> T  {
         
         guard let value = self[key]?.value as? T2 else { Log.error(key); throw FailedToConvertNodeError() }
