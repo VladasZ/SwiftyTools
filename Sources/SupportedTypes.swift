@@ -10,7 +10,7 @@ import Foundation
 
 public protocol NodeSupportedType { }
 
-public extension Bool   : NodeSupportedType { }
-public extension Int    : NodeSupportedType { }
-public extension Double : NodeSupportedType { }
-public extension String : NodeSupportedType { }
+extension Bool   : NodeSupportedType { }
+extension Int    : NodeSupportedType { }
+extension Double : NodeSupportedType { }
+extension String : NodeSupportedType { }
