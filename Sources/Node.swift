@@ -12,7 +12,7 @@ public class Node {
     
     //MARK: - Properties
     
-    private var value: Any!
+    public var value: Any!
     
     public var String: String? { return value as? String }
     public var Int:    Int?    { return value as? Int    }
