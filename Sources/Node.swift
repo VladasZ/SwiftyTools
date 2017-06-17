@@ -14,10 +14,11 @@ public class Node {
     
     public var value: Any!
     
-    public var String: String? { return value as? String }
-    public var Int:    Int?    { return value as? Int    }
-    public var Double: Double? { return value as? Double }
-    public var Bool:   Bool?   { return value as? Bool   }
+    public var String:     String?         { return value as? String }
+    public var Int:        Int?            { return value as? Int    }
+    public var Double:     Double?         { return value as? Double }
+    public var Bool:       Bool?           { return value as? Bool   }
+    public var Dictionary: [String : Any]? { return value as? [String : Any] }
     
     public var Array:  [Node]? {
         
