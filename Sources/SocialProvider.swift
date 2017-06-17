@@ -27,4 +27,5 @@ open class SocialProvider {
 
     public class func initializeWithAppID(_ id: String)           { fatalError("Subclasses need to implement the `initializeWithAppID()` method.") }
     public class func login(_ completion: SocialCompletion = nil) { fatalError("Subclasses need to implement the `login()` method.")               }
+    public class func logout()                                    { fatalError("Subclasses need to implement the `logout()` method.")              }
 }

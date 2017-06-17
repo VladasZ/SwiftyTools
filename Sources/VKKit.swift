@@ -28,6 +28,13 @@ public class VKKit : SocialProvider {
         
         VK.logIn()
     }
+    
+    override public class func logout() {
+        
+        token = nil
+        VK.logOut()
+    }
+
 }
 
 extension VKKit : VKDelegate {
