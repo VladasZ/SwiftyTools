@@ -48,7 +48,20 @@ public extension Array where Element: NodeConvertible {
     init(node: Node) throws {
         
         let array = node.Array ?? [node]
-        self = try array.map { try Element(node: $0) }
+        var result = [Element]()
+        
+        array.forEach {
+            
+            if let element = try? Element(node: $0) { result.append(element) }
+            else {
+                
+                Log.error()
+            }
+        }
+        
+        if array.count != 0 && result.count == 0 { throw FailedToInitializeNodeError() }
+        
+        self = result
     }
 }
 
