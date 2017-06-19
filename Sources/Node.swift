@@ -115,24 +115,35 @@ public class Node {
         self.value = dictionary
     }
     
-    public func append(_ key: String, _ value: Any?) {
+    public func append(_ key: String, _ value: [NodeConvertible]?) {
+        
+        guard let value = value else { return }
+        guard var dictionary = dictionary else { Log.error(key); return }
+        
+        dictionary[key] = value.map{ value -> [String : Any] in
+            if let dictionary = value.dictionary { return dictionary }
+            else { Log.error(); return ["error" : "error"] }
+        }
+        self.value = dictionary
+        return
+    }
+    
+    public func append(_ key: String, _ value: NodeSupportedType?) {
         
         guard let value = value else { return }
         guard var dictionary = dictionary else { Log.error(); return }
         
-        if let value = value as? [NodeConvertible] {
-            
-            dictionary[key] = value.map{ value -> [String : Any] in
-                
-                if let dictionary = value.dictionary { return dictionary }
-                else { Log.error(); return ["error" : "error"] }
-            }
-            self.value = dictionary
-            return
-        }
-        
         if let value = value as? String { if value.isEmpty { return } }
         
+        dictionary[key] = value
+        self.value = dictionary
+    }
+    
+    public func append(_ key: String, _ value: [NodeSupportedType]?) {
+        
+        guard let value = value else { return }
+        guard var dictionary = dictionary else { Log.error(); return }
+                
         dictionary[key] = value
         self.value = dictionary
     }
