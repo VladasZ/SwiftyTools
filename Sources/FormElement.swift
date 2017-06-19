@@ -45,9 +45,15 @@ public class FormElement {
         return value == ""
     }
     
-    public var value: String = "" {
-        didSet {
-            source?.value = value
+    private var _value: String = ""
+    public var value: String {
+        get {
+            if let value = source?.value { if !value.isEmpty { return value } }
+            return _value
+        }
+        set {
+            _value = newValue
+            source?.value = newValue
         }
     }
     
