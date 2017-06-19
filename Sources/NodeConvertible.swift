@@ -10,11 +10,17 @@ import Foundation
 
 public protocol NodeConvertible : class {
     
+    var node: Node { get }
+    
     init(data: Data?) throws
     init(node: Node) throws
 }
 
 public extension NodeConvertible {
+    
+    var node: Node                  { return Node.empty      }
+    var data: Data?                 { return node.data       }
+    var dictionary: [String : Any]? { return node.dictionary }
     
     init(data: Data?) throws {
         
@@ -25,6 +31,12 @@ public extension NodeConvertible {
 }
 
 public extension Array where Element: NodeConvertible {
+    
+    var node: Node {
+        
+        Log.error()
+        return Node.empty//map { $0.node }
+    }
     
     init(data: Data?) throws {
         
@@ -37,5 +49,13 @@ public extension Array where Element: NodeConvertible {
         
         let array = node.Array ?? [node]
         self = try array.map { try Element(node: $0) }
+    }
+}
+
+public extension Data {
+    
+    public var JSONString: String {
+        
+        return String(data: self, encoding: .utf8) ?? "not a JSONString"
     }
 }

@@ -10,15 +10,20 @@ import Foundation
 
 public class Node {
     
+    //MARK: - Static properties
+    
+    public static var empty:     Node { return Node(value: "Empty Node") }
+    public static var container: Node { return Node(value: [String : Any]()) }
+    
     //MARK: - Properties
     
     public var value: Any!
     
-    public var String:     String?         { return value as? String }
-    public var Int:        Int?            { return value as? Int    }
-    public var Double:     Double?         { return value as? Double }
-    public var Bool:       Bool?           { return value as? Bool   }
-    public var Dictionary: [String : Any]? { return value as? [String : Any] }
+    public var string:     String?         { return value as? String }
+    public var int:        Int?            { return value as? Int    }
+    public var double:     Double?         { return value as? Double }
+    public var bool:       Bool?           { return value as? Bool   }
+    public var dictionary: [String : Any]? { return value as? [String : Any] }
     
     public var Array:  [Node]? {
         
@@ -37,7 +42,15 @@ public class Node {
     
     public func extract<T>(_ key: String) throws -> T {
         
-        guard let value: T = self[key]?.value as? T else { Log.error(key); throw FailedToExtractNodeError() }
+        guard let value: T = self[key]?.value as? T else {
+            
+            
+            
+            Log.error(key);
+            
+            
+            
+            throw FailedToExtractNodeError() }
         return value
     }
     
@@ -55,7 +68,12 @@ public class Node {
     
     public func extract<T>(_ key: String) throws -> [T] where T : NodeSupportedType {
         
-        guard let array = self[key]?.Array else { Log.error(key); throw FailedToExtractNodeError() }
+        guard let array = self[key]?.Array else {
+            
+            
+            Log.error(key);
+            
+            throw FailedToExtractNodeError() }
         guard let result = (array.map { $0.value }) as? [T] else { Log.error(key); throw FailedToExtractNodeError() }
         return result
     }
@@ -79,6 +97,44 @@ public class Node {
         return try [T](node: data)
     }
     
+    //MARK: - Serialization
+    
+    var data: Data? {
+        
+        guard let dictionary = dictionary else { Log.error(); return nil }
+        return try? JSONSerialization.data(withJSONObject: dictionary, options: [])
+    }
+    
+    func append(_ key: String, _ value: NodeConvertible) {
+        
+        guard var dictionary = dictionary else { Log.error(key); return }
+        guard let data = value.node.dictionary else { Log.error(key); return }
+        
+        dictionary[key] = data
+        self.value = dictionary
+    }
+    
+    func append(_ key: String, _ value: Any) {
+        
+        guard var dictionary = dictionary else { Log.error(); return }
+        
+        if let value = value as? [NodeConvertible] {
+            
+            dictionary[key] = value.map{ value -> [String : Any] in
+                
+                if let dictionary = value.dictionary { return dictionary }
+                else { Log.error(); return ["error" : "error"] }
+            }
+            self.value = dictionary
+            return
+        }
+        
+        if let value = value as? String { if value.isEmpty { return } }
+        
+        dictionary[key] = value
+        self.value = dictionary
+    }
+    
     //MARK: - Initialization
     
     public init(value: Any) {
@@ -91,5 +147,10 @@ public class Node {
         guard let data = data else { return }
         guard let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) else { return }
         value = json
+    }
+    
+    public init(dictionary: [String : Any]) {
+        
+        self.value = dictionary
     }
 }
