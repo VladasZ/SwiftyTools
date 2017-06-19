@@ -25,6 +25,12 @@ public class Node {
     public var bool:       Bool?           { return value as? Bool   }
     public var dictionary: [String : Any]? { return value as? [String : Any] }
     
+    public var JSONString: String {
+        
+        guard let dictionary = dictionary else { return "No JSON data" }
+        return (try? JSONSerialization.data(withJSONObject: dictionary, options: []))?.JSONString ?? "No JSON data"
+    }
+    
     public var Array:  [Node]? {
         
         guard let array = value as? [Any] else { return nil }
