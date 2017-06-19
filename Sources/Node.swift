@@ -105,8 +105,9 @@ public class Node {
         return try? JSONSerialization.data(withJSONObject: dictionary, options: [])
     }
     
-    func append(_ key: String, _ value: NodeConvertible) {
+    public func append(_ key: String, _ value: NodeConvertible?) {
         
+        guard let value = value else { return }
         guard var dictionary = dictionary else { Log.error(key); return }
         guard let data = value.node.dictionary else { Log.error(key); return }
         
@@ -114,8 +115,9 @@ public class Node {
         self.value = dictionary
     }
     
-    func append(_ key: String, _ value: Any) {
+    public func append(_ key: String, _ value: Any?) {
         
+        guard let value = value else { return }
         guard var dictionary = dictionary else { Log.error(); return }
         
         if let value = value as? [NodeConvertible] {
