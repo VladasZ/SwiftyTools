@@ -27,8 +27,15 @@ public class Signal {
     
     private var subscribers = [String : SignalSubscriber]()
     private var linked: Signal?
+    private var _action: (() -> ())?
+    private var _identifier: String?
     
-    public init(linked: Signal? = nil) { self.linked = linked }
+    public init(_ id: String? = nil, linked: Signal? = nil, _ action: (() -> ())? = nil) {
+        
+        self._identifier = id
+        self.linked = linked
+        self._action = action
+    }
     
     public func subscribe(_ file: String = #file, _ line: Int = #line, _ action: @escaping () -> ()) {
         
@@ -45,8 +52,11 @@ public class Signal {
     
     public func fire() {
         
+        if let id = _identifier { Log.info("Signal: " + id + " triggered") }
+        
         DispatchQueue.main.async {
             
+            self._action?()
             if let linked = self.linked { for (_, element) in linked.subscribers { element.action() } }
             for (_, element) in self.subscribers { element.action() }
         }
