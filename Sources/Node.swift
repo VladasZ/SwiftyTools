@@ -141,7 +141,7 @@ public class Node {
         if appendsNil {
             
             if let value = value { dictionary[key] = value }
-            else                 { dictionary[key] = nil }
+            else                 { dictionary[key] = NSNull() }
         }
         else {
             
