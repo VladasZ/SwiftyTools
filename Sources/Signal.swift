@@ -1,6 +1,6 @@
 //
 //  Signal.swift
-//  SwiftTools
+//  SwiftyTools
 //
 //  Created by Vladas Zakrevskis on 4/27/17.
 //  Copyright © 2017 VladasZ. All rights reserved.

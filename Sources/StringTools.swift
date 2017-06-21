@@ -1,6 +1,6 @@
 //
 //  StringTools.swift
-//  SwiftTools
+//  SwiftyTools
 //
 //  Created by Vladas Zakrevskis on 3/1/17.
 //  Copyright © 2017 Vladas Zakrevskis. All rights reserved.
