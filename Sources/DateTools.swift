@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AVFoundation
 
 fileprivate let dateTimeFormatter    = DateFormatter("HH:mm dd-MM-yyyy")
 fileprivate let dateFormatter        = DateFormatter("dd-MM-yyyy")
@@ -117,12 +116,3 @@ public extension Int {
     }
 }
 
-public extension CMTime {
-    
-    public var String: String {
-        
-        let date = Date(timeIntervalSinceReferenceDate: CMTimeGetSeconds(self))
-        return hourMinTimeFormatter.string(from: date)
-    }
-    
-}
