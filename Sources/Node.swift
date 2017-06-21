@@ -31,7 +31,7 @@ public class Node {
         return (try? JSONSerialization.data(withJSONObject: dictionary, options: []))?.JSONString ?? "No JSON data"
     }
     
-    public var Array:  [Node]? {
+    public var array:  [Node]? {
         
         guard let array = value as? [Any] else { return nil }
         return array.map { Node(value: $0) }
@@ -74,7 +74,7 @@ public class Node {
     
     public func extract<T>(_ key: String) throws -> [T] where T : NodeSupportedType {
         
-        guard let array = self[key]?.Array else {
+        guard let array = self[key]?.array else {
             
             
             Log.error(key);
@@ -86,7 +86,7 @@ public class Node {
     
     public func extract<T, T2>(_ key: String, _ convert: @escaping (T2) -> T) throws -> [T] where T : NodeSupportedType {
         
-        guard let array = self[key]?.Array else { Log.error(key); throw FailedToExtractNodeError() }
+        guard let array = self[key]?.array else { Log.error(key); throw FailedToExtractNodeError() }
 
         return try array.map { (node) -> T in
             guard let value = node.value as? T2 else { Log.error(key); throw FailedToExtractNodeError() }
@@ -97,7 +97,7 @@ public class Node {
     public func extract<T>(_ key: String) throws -> [T] where T : NodeConvertible {
         
         guard let data = self[key],
-              data.Array != nil
+              data.array != nil
         else { Log.error(key); throw FailedToExtractNodeError() }
         
         return try [T](node: data)
@@ -134,14 +134,22 @@ public class Node {
         return
     }
     
-    public func append(_ key: String, _ value: NodeSupportedType?) {
+    public func append(_ key: String, _ value: NodeSupportedType?, appendsNil: Bool = false) {
         
-        guard let value = value else { return }
         guard var dictionary = dictionary else { Log.error(); return }
         
-        if let value = value as? String { if value.isEmpty { return } }
+        if appendsNil {
+            
+            if let value = value { dictionary[key] = value }
+            else                 { dictionary[key] = nil }
+        }
+        else {
+            
+            guard let value = value else { return }
+            if let value = value as? String { if value.isEmpty { return } }
+            dictionary[key] = value
+        }
         
-        dictionary[key] = value
         self.value = dictionary
     }
     

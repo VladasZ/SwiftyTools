@@ -47,7 +47,7 @@ public extension Array where Element: NodeConvertible {
     
     init(node: Node) throws {
         
-        let array = node.Array ?? [node]
+        let array = node.array ?? [node]
         var result = [Element]()
         
         array.forEach {
