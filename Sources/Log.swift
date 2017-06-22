@@ -59,16 +59,3 @@ public class Log {
         print(logMessage)
     }
 }
-
-public extension String {
-    
-    var lastPathComponent:String {
-        
-        return URL(string:self)!.lastPathComponent
-    }
-    
-    func insert(string: String, at ind: Int) -> String {
-        
-        return  String(self.characters.prefix(ind)) + string + String(self.characters.suffix(self.characters.count - ind))
-    }
-}

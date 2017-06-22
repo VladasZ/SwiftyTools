@@ -9,7 +9,11 @@
 import Foundation
 
 public extension Array where Element : Hashable {
-    public var unique: [Element] {
-        return Array(Set(self))
-    }
+    
+    var unique: [Element] { return Array(Set(self)) }
+}
+
+public extension Array {
+    
+    var randomElement: Element { return self[Int(arc4random_uniform(UInt32(count)))] }
 }
