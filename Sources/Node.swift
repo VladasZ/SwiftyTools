@@ -50,12 +50,8 @@ public class Node {
         
         guard let value: T = self[key]?.value as? T else {
             
-            
-            
             Log.error(key);
-            
-            
-            
+        
             throw FailedToExtractNodeError() }
         return value
     }
