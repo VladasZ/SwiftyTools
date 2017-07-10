@@ -45,7 +45,9 @@ public extension Array where Element: NodeConvertible {
         try self.init(node: node)
     }
     
-    init(node: Node) throws {
+    init(node: Node?) throws {
+        
+        guard let node = node else { throw FailedToInitializeNodeError() }
         
         let array = node.array ?? [node]
         var result = [Element]()
