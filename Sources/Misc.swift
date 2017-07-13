@@ -45,7 +45,7 @@ public func randomBool() -> Bool {
 }
 
 //https://stackoverflow.com/questions/24007461/how-to-enumerate-an-enum-with-string-type
-func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
+public func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
     var i = 0
     return AnyIterator {
         let next = withUnsafeBytes(of: &i) { $0.load(as: T.self) }
