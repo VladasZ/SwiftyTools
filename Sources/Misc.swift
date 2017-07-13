@@ -44,3 +44,13 @@ public func randomBool() -> Bool {
     return UInt32(arc4random()) % UInt32(2) == 0
 }
 
+//https://stackoverflow.com/questions/24007461/how-to-enumerate-an-enum-with-string-type
+func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
+    var i = 0
+    return AnyIterator {
+        let next = withUnsafeBytes(of: &i) { $0.load(as: T.self) }
+        if next.hashValue != i { return nil }
+        i += 1
+        return next
+    }
+}
