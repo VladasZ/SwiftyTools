@@ -13,9 +13,13 @@ public extension Array where Element : Hashable {
     var unique: [Element] { return Array(Set(self)) }
 }
 
-public extension Array where Iterator.Element : Equatable {
+public extension Array {
     
     var randomElement: Element { return self[Int(arc4random_uniform(UInt32(count)))] }
+}
+
+public extension Array where Iterator.Element : Equatable {
+    
     
     func randomExcept(_ element: Element) -> Element  {
         
