@@ -20,7 +20,6 @@ public extension Array {
 
 public extension Array where Iterator.Element : Equatable {
     
-    
     func random(_ count: Int) -> [Element] {
         
         var result = [Element]()
@@ -41,6 +40,15 @@ public extension Array where Iterator.Element : Equatable {
         var random = randomElement
         if count <= elements.count { Log.warning(); return random }
         while elements.contains(random) { random = randomElement }
+        return random
+    }
+    
+    mutating func popRandom() -> Element {
+        
+        if count == 0 { Log.error(); return first! }
+        let random = randomElement
+        let index = self.index { $0 == random }!
+        remove(at: index)
         return random
     }
 }
