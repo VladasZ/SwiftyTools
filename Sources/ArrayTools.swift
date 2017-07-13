@@ -21,6 +21,13 @@ public extension Array {
 public extension Array where Iterator.Element : Equatable {
     
     
+    func random(_ count: Int) -> [Element] {
+        
+        var result = [Element]()
+        for _ in 0..<count { result.append(randomExcept(result)) }
+        return result
+    }
+    
     func randomExcept(_ element: Element) -> Element  {
         
         var random = randomElement
