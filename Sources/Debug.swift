@@ -8,11 +8,11 @@
 
 import Foundation
 
-class Debug {
+public class Debug {
     
-    static var callCouterData = [String : Int]()
+    private static var callCouterData = [String : Int]()
     
-    static func callCounter(_ file: String = #file, _ function:String = #function, _ line: Int = #line) {
+    public static func callCounter(_ file: String = #file, _ function:String = #function, _ line: Int = #line) {
         
         let id = "\(file)\(line)"
         
