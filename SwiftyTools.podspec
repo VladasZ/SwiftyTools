@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name           = 'SwiftyTools'
-s.version        = '0.8.17'
+s.version        = '0.8.18'
 s.summary        = "Swift tools kit to make your life easier."
 s.homepage       = "https://github.com/VladasZ/SwiftyTools"
 s.author         = { 'Vladas Zakrevskis' => '146100@gmail.com' }
