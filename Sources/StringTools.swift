@@ -33,9 +33,9 @@ public extension String {
         return String(characters.prefix(1))
     }
     
-    public var lastPathComponent:String {
+    public var lastPathComponent: String {
         
-        return URL(string:self)!.lastPathComponent
+        return self.components(separatedBy: "/").last ?? ""
     }
     
     public func insert(string: String, at ind: Int) -> String {
