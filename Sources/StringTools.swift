@@ -9,6 +9,17 @@
 
 import Foundation
 
+public extension Optional where Wrapped == String {
+    
+    public var isEmpty: Bool {
+        
+        switch self {
+        case .none: return true
+        case let .some(string): return string.isEmpty
+        }
+    }
+}
+
 public extension String {
     
     private static let letters = ["a", "b", "c", "d", "e", "f", "g", "i", "j", "k", "l", "m",
