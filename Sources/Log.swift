@@ -8,13 +8,6 @@
 
 import Foundation
 
-fileprivate enum LogType {
-    
-    case info
-    case warning
-    case error
-}
-
 fileprivate let noMessageString = "noMessageString"
 
 public class Log {
@@ -34,7 +27,7 @@ public class Log {
         log(message, withType: .error, file, function, line)
     }
     
-    private static func log(_ message: Any?, withType type:LogType, _ file:String, _ function:String, _ line:Int) {
+    private static func log(_ message: Any?, withType type: LogType, _ file:String, _ function:String, _ line:Int) {
         
         var typeString: String
         let file = file.lastPathComponent.replacingOccurrences(of: ".swift", with: "")
@@ -53,6 +46,13 @@ public class Log {
          
             if let message = message { logMessage.append(" " + String(describing: message)) }
             else                     { logMessage.append(" nil") }
+        }
+        
+        if saveMessages {
+            
+            messages.append(LogMessage(type: type,
+                                       location: "\(file)::\(function) - \(line)",
+                                       message: String(describing: message)))
         }
         
         

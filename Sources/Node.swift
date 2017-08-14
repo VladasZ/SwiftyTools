@@ -27,8 +27,8 @@ public class Node {
     
     public var JSONString: String {
         
-        guard let dictionary = dictionary else { return "No JSON data" }
-        return (try? JSONSerialization.data(withJSONObject: dictionary, options: []))?.JSONString ?? "No JSON data"
+        //guard let dictionary = dictionary else { return "No JSON data" }
+        return (try? JSONSerialization.data(withJSONObject: value, options: []))?.JSONString ?? "No JSON data"
     }
     
     public var array:  [Node]? {
@@ -158,11 +158,26 @@ public class Node {
         self.value = dictionary
     }
     
+    public func appendStringToArray(_ string: String) {
+        
+        guard let stringData = Node(string: string) else { Log.error(); return }
+        guard var array = self.array else { Log.error(); return }
+        array.append(stringData)
+        value = array.map { $0.value }
+    }
+    
     //MARK: - Initialization
     
     public init(value: Any) {
         
         self.value = value
+    }
+    
+    public init?(string: String) {
+        
+        guard let data = string.data(using: .utf8) else { return }
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) else { return }
+        value = json
     }
     
     public init?(data: Data?) {
