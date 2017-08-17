@@ -110,7 +110,7 @@ public extension String
         }
         
         // Reduce penalty for longer strings.
-        finalScore = 0.5 * (runningScore / Double(strLength) + runningScore / Double(wordLength)) / fuzzies
+        finalScore = 0.5 * (runningScore / Swift.Double(strLength) + runningScore / Swift.Double(wordLength)) / fuzzies
         
         if (lWord[lWord.startIndex] == lString[lString.startIndex]) && (finalScore < 0.85) {
             finalScore += 0.15
