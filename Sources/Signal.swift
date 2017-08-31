@@ -8,7 +8,7 @@
 
 import Foundation
 
-fileprivate struct SignalSubscriber : Hashable {
+fileprivate struct SignalSubscriber<T> : Hashable {
 
     static func ==(lhs: SignalSubscriber, rhs: SignalSubscriber) -> Bool {
         return lhs.hashValue == rhs.hashValue
@@ -20,24 +20,24 @@ fileprivate struct SignalSubscriber : Hashable {
     
     var file: String
     var line: Int
-    var action: () -> ()
+    var action: (T) -> ()
 }
 
-public class Signal {
+public class Signal<T> {
     
-    private var subscribers = [String : SignalSubscriber]()
+    private var subscribers = [String : SignalSubscriber<T>]()
     private var linked: Signal?
-    private var _action: (() -> ())?
+    private var _action: ((T) -> ())?
     private var _identifier: String?
     
-    public init(_ id: String? = nil, linked: Signal? = nil, _ action: (() -> ())? = nil) {
+    public init(_ id: String? = nil, linked: Signal? = nil, _ action: ((T) -> ())? = nil) {
         
         self._identifier = id
         self.linked = linked
         self._action = action
     }
     
-    public func subscribe(_ file: String = #file, _ line: Int = #line, _ action: @escaping () -> ()) {
+    public func subscribe(_ file: String = #file, _ line: Int = #line, _ action: @escaping (T) -> ()) {
         
         let subscriber = SignalSubscriber(file: file, line: line, action: action)
         subscribers[subscriber.identifier] = subscriber
@@ -50,15 +50,15 @@ public class Signal {
         filterredArray.forEach { subscribers[$0.key] = $0.value }
     }
     
-    public func fire() {
+    public func fire(_ value: T) {
         
         if let id = _identifier { Log.info("Signal: " + id + " triggered") }
         
         DispatchQueue.main.async {
             
-            self._action?()
-            if let linked = self.linked { for (_, element) in linked.subscribers { element.action() } }
-            for (_, element) in self.subscribers { element.action() }
+            self._action?(value)
+            if let linked = self.linked { for (_, element) in linked.subscribers { element.action(value) } }
+            for (_, element) in self.subscribers { element.action(value) }
         }
     }
 }
