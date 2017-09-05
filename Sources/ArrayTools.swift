@@ -15,25 +15,25 @@ public extension Array where Element : Hashable {
 
 public extension Array {
     
-    var safeRandomElement: Element? {
+    var randomElement: Element? {
         
         if count == 0 { return nil }
         return self[Int(arc4random_uniform(UInt32(count)))]
     }
-
-    var randomElement: Element { return self[Int(arc4random_uniform(UInt32(count)))] }
 }
 
 public extension Array where Iterator.Element : Equatable {
     
-    func random(_ count: Int) -> [Element] {
+    func random(_ count: Int) -> [Element]? {
+        
+        if count == 0 { return nil }
         
         var result = [Element]()
-        for _ in 0..<count { result.append(randomExcept(result)) }
+        for _ in 0..<count { result.append(randomExcept(result)!) }
         return result
     }
     
-    func randomExcept(_ element: Element) -> Element  {
+    func randomExcept(_ element: Element) -> Element?  {
         
         var random = randomElement
         if count == 1 { Log.warning(); return random }
@@ -41,15 +41,17 @@ public extension Array where Iterator.Element : Equatable {
         return random
     }
     
-    func randomExcept(_ elements: [Element]) -> Element  {
+    func randomExcept(_ elements: [Element]) -> Element?  {
+        
+        if count == 0 { return nil }
         
         var random = randomElement
         if count <= elements.count { Log.warning(); return random }
-        while elements.contains(random) { random = randomElement }
+        while elements.contains(random!) { random = randomElement }
         return random
     }
     
-    mutating func popRandom() -> Element {
+    mutating func popRandom() -> Element? {
         
         if count == 0 { Log.error(); return first! }
         let random = randomElement
