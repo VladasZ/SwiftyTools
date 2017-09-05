@@ -15,6 +15,12 @@ public extension Array where Element : Hashable {
 
 public extension Array {
     
+    var safeRandomElement: Element? {
+        
+        if count == 0 { return nil }
+        return self[Int(arc4random_uniform(UInt32(count)))]
+    }
+
     var randomElement: Element { return self[Int(arc4random_uniform(UInt32(count)))] }
 }
 
