@@ -54,11 +54,14 @@ public class Signal<T> {
         
         if let id = _identifier { Log.info("Signal: " + id + " triggered") }
         
-        DispatchQueue.main.async {
+        func _fire() {
             
             self._action?(value)
             if let linked = self.linked { for (_, element) in linked.subscribers { element.action(value) } }
             for (_, element) in self.subscribers { element.action(value) }
         }
+        
+        if Thread.isMainThread { _fire() }
+        else { onMain { _fire() } }
     }
 }
