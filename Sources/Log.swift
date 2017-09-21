@@ -8,7 +8,7 @@
 
 import Foundation
 
-fileprivate let noMessageString = "noMessageString"
+public let noMessageString = "noMessageString"
 
 public class Log {
     
