@@ -26,8 +26,7 @@ public class Block {
     public var dictionary: [String : Any]? { return value as? [String : Any] }
     
     public var JSONString: String {
-        
-        //guard let dictionary = dictionary else { return "No JSON data" }
+        if value == nil { return "No value" }
         return (try? JSONSerialization.data(withJSONObject: value, options: []))?.JSONString ?? "No JSON data"
     }
     
