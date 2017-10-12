@@ -1,5 +1,5 @@
 //
-//  Node.swift
+//  Block.swift
 //  SwiftLibs
 //
 //  Created by Vladas Zakrevskis on 6/14/17.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-public class Node {
+public class Block {
     
     //MARK: - Static properties
     
-    public static var empty:     Node { return Node(value: "Empty Node") }
-    public static var container: Node { return Node(value: [String : Any]()) }
+    public static var empty:     Block { return Block(value: "Empty Block") }
+    public static var container: Block { return Block(value: [String : Any]()) }
     
     //MARK: - Properties
     
@@ -31,17 +31,17 @@ public class Node {
         return (try? JSONSerialization.data(withJSONObject: value, options: []))?.JSONString ?? "No JSON data"
     }
     
-    public var array:  [Node]? {
+    public var array:  [Block]? {
         
         guard let array = value as? [Any] else { return nil }
-        return array.map { Node(value: $0) }
+        return array.map { Block(value: $0) }
     }
     
-    public subscript (_ key: String) -> Node? {
+    public subscript (_ key: String) -> Block? {
         
         guard let dict = value as? [String : Any] else { return nil }
         guard let value = dict[key] else { return nil }
-        return Node(value: value)
+        return Block(value: value)
     }
     
     //MARK: - Extraction
@@ -52,51 +52,51 @@ public class Node {
             
             if self[key]?.value as? NSNull == nil { Log.error(key) }
             
-            throw FailedToExtractNodeError() }
+            throw FailedToExtractBlockError() }
         return value
     }
     
-    public func extract<T>(_ key: String) throws -> T where T : NodeConvertible {
+    public func extract<T>(_ key: String) throws -> T where T : BlockConvertible {
         
-        guard let node = self[key] else { Log.error(key); throw FailedToExtractNodeError() }
-        return try T(node: node)
+        guard let block = self[key] else { Log.error(key); throw FailedToExtractBlockError() }
+        return try T(block: block)
     }
     
     public func extract<T, T2>(_ key: String, _ convert: (T2) -> T) throws -> T  {
         
-        guard let value = self[key]?.value as? T2 else { Log.error(key); throw FailedToConvertNodeError() }
+        guard let value = self[key]?.value as? T2 else { Log.error(key); throw FailedToConvertBlockError() }
         return convert(value)
     }
     
-    public func extract<T>(_ key: String) throws -> [T] where T : NodeSupportedType {
+    public func extract<T>(_ key: String) throws -> [T] where T : BlockSupportedType {
         
         guard let array = self[key]?.array else {
             
             
             Log.error(key);
             
-            throw FailedToExtractNodeError() }
-        guard let result = (array.map { $0.value }) as? [T] else { Log.error(key); throw FailedToExtractNodeError() }
+            throw FailedToExtractBlockError() }
+        guard let result = (array.map { $0.value }) as? [T] else { Log.error(key); throw FailedToExtractBlockError() }
         return result
     }
     
-    public func extract<T, T2>(_ key: String, _ convert: @escaping (T2) -> T) throws -> [T] where T : NodeSupportedType {
+    public func extract<T, T2>(_ key: String, _ convert: @escaping (T2) -> T) throws -> [T] where T : BlockSupportedType {
         
-        guard let array = self[key]?.array else { Log.error(key); throw FailedToExtractNodeError() }
+        guard let array = self[key]?.array else { Log.error(key); throw FailedToExtractBlockError() }
 
-        return try array.map { (node) -> T in
-            guard let value = node.value as? T2 else { Log.error(key); throw FailedToExtractNodeError() }
+        return try array.map { (block) -> T in
+            guard let value = block.value as? T2 else { Log.error(key); throw FailedToExtractBlockError() }
             return convert(value)
         }
     }
     
-    public func extract<T>(_ key: String) throws -> [T] where T : NodeConvertible {
+    public func extract<T>(_ key: String) throws -> [T] where T : BlockConvertible {
         
         guard let data = self[key],
               data.array != nil
-        else { Log.error(key); throw FailedToExtractNodeError() }
+        else { Log.error(key); throw FailedToExtractBlockError() }
         
-        return try [T](node: data)
+        return try [T](block: data)
     }
     
     //MARK: - Serialization
@@ -107,17 +107,17 @@ public class Node {
         return try? JSONSerialization.data(withJSONObject: dictionary, options: [])
     }
     
-    public func append(_ key: String, _ value: NodeConvertible?) {
+    public func append(_ key: String, _ value: BlockConvertible?) {
         
         guard let value = value else { return }
         guard var dictionary = dictionary else { Log.error(key); return }
-        guard let data = value.node.dictionary else { Log.error(key); return }
+        guard let data = value.block.dictionary else { Log.error(key); return }
         
         dictionary[key] = data
         self.value = dictionary
     }
     
-    public func append(_ key: String, _ value: [NodeConvertible]?) {
+    public func append(_ key: String, _ value: [BlockConvertible]?) {
         
         guard let value = value else { return }
         guard var dictionary = dictionary else { Log.error(key); return }
@@ -130,7 +130,7 @@ public class Node {
         return
     }
     
-    public func append(_ key: String, _ value: NodeSupportedType?, appendsNil: Bool = false) {
+    public func append(_ key: String, _ value: BlockSupportedType?, appendsNil: Bool = false) {
         
         guard var dictionary = dictionary else { Log.error(); return }
         
@@ -149,7 +149,7 @@ public class Node {
         self.value = dictionary
     }
     
-    public func append(_ key: String, _ value: [NodeSupportedType]?) {
+    public func append(_ key: String, _ value: [BlockSupportedType]?) {
         
         guard let value = value else { return }
         guard var dictionary = dictionary else { Log.error(); return }
@@ -160,7 +160,7 @@ public class Node {
     
     public func appendStringToArray(_ string: String) {
         
-        guard let stringData = Node(string: string) else { Log.error(); return }
+        guard let stringData = Block(string: string) else { Log.error(); return }
         guard var array = self.array else { Log.error(); return }
         array.append(stringData)
         value = array.map { $0.value }
