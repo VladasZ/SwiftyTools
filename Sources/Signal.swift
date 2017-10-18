@@ -96,7 +96,7 @@ public class Signal<T> {
         func _fire() {
             
             self._action?(value)
-            if let linked = self.linked { for (_, element) in linked.subscribers { element.action(value) } }
+            if let linked = self.linked { linked.fire(value) }
             for (_, element) in self.subscribers { element.action(value) }
         }
         
