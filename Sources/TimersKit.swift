@@ -12,10 +12,15 @@ public typealias TimerAction = (inout Bool) -> ()
 
 public extension Timer {
     
-    static func every(_ interval: Double, _ action: @escaping TimerAction) {
+    @discardableResult static func every(_ interval: Double, _ action: @escaping TimerAction) -> Timer {
         
-        let timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(self.timerAction(_:)), userInfo: action, repeats: true)
+        let timer = Timer.scheduledTimer(timeInterval: interval,
+                                         target: self,
+                                         selector: #selector(self.timerAction(_:)),
+                                         userInfo: action,
+                                         repeats: true)
         timer.fire()
+        return timer
     }
     
     @objc private static func timerAction(_ timer: Timer) {
