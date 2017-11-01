@@ -41,7 +41,7 @@ public extension String {
     
     public var firstLetter: String {
         
-        return String(characters.prefix(1))
+        return String(prefix(1))
     }
     
     public var lastPathComponent: String {
@@ -49,16 +49,21 @@ public extension String {
         return self.components(separatedBy: "/").last ?? ""
     }
     
+    public var withoutFractionPart: String {
+        if range(of: ".") != nil { return components(separatedBy: ".").first ?? ""}
+        else { return self }
+    }
+    
     public func insert(string: String, at ind: Int) -> String {
         
-        return  String(self.characters.prefix(ind)) + string + String(self.characters.suffix(self.characters.count - ind))
+        return  String(self.prefix(ind)) + string + String(self.suffix(self.count - ind))
     }
     
     private static let nums: Set<Character> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     
     public var isNumeric: Bool {
-        guard self.characters.count > 0 else { return false }
-        return Set(self.characters).isSubset(of: String.nums)
+        guard self.count > 0 else { return false }
+        return Set(self).isSubset(of: String.nums)
     }
     
     public var withoutLetters: String {

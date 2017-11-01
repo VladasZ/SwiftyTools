@@ -46,9 +46,9 @@ public extension String
         finalScore = 0.0,
         string = self,
         lString = string.lowercased(),
-        strLength = string.characters.count,
+        strLength = string.count,
         lWord = word.lowercased(),
-        wordLength = word.characters.count,
+        wordLength = word.count,
         idxOf: String.Index!,
         startAt = lString.startIndex,
         fuzzies = 1.0,
@@ -65,7 +65,7 @@ public extension String
             // Find next first case-insensitive match of word's i-th character.
             // The search in "string" begins at "startAt".
             if let range = lString.range(
-                of: String(lWord[lWord.characters.index(lWord.startIndex, offsetBy: i)] as Character),
+                of: String(lWord[lWord.index(lWord.startIndex, offsetBy: i)] as Character),
                 options: NSString.CompareOptions.caseInsensitive,
                 range: Range<String.Index>(startAt..<lString.endIndex),
                 locale: nil
@@ -100,7 +100,7 @@ public extension String
             }
             
             // Same case bonus.
-            if (string[idxOf] == word[word.characters.index(word.startIndex, offsetBy: i)]) {
+            if (string[idxOf] == word[word.index(word.startIndex, offsetBy: i)]) {
                 charScore += 0.1
             }
             

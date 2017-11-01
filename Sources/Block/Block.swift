@@ -71,7 +71,7 @@ public class Block {
         
         guard let array = self[key]?.array else {
             
-            
+              
             Log.error(key);
             
             throw FailedToExtractBlockError() }
