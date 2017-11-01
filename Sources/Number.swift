@@ -10,11 +10,11 @@ import Foundation
 
 extension String : Error { }
 
-class Number {
+public class Number {
     
-    var value: String
+    public var value: String
     
-    func getValue<T>() -> T {
+    public func getValue<T>() -> T {
         switch T.self {
         case is String.Type: return value as! T
         case is Int.Type: return Int(value.withoutFractionPart) as! T
@@ -24,7 +24,7 @@ class Number {
         }
     }
     
-    init(_ value: Any?) throws { guard let value = value else { throw "Failed Number" }
+    public init(_ value: Any?) throws { guard let value = value else { throw "Failed Number" }
         switch value {
         case is String: self.value =        value as! String
         case is Int:    self.value = String(value as! Int)
