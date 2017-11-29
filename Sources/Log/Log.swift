@@ -13,17 +13,14 @@ public let noMessageString = "noMessageString"
 public class Log {
     
     public static func info(_ message: Any? = noMessageString, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
-        
         log(message, withType: .info, file, function, line)
     }
     
     public static func warning(_ message: Any? = noMessageString, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
-        
         log(message, withType: .warning, file, function, line)
     }
     
     public static func error(_ message: Any? = noMessageString, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
-        
         log(message, withType: .error, file, function, line)
     }
     
@@ -43,13 +40,11 @@ public class Log {
         logMessage.append("[\(file)::\(function) - \(line)]")
         
         if message as? String != noMessageString {
-         
             if let message = message { logMessage.append(" " + String(describing: message)) }
             else                     { logMessage.append(" nil") }
         }
         
         if saveMessages {
-            
             messages.append(LogMessage(type: type,
                                        location: "\(file)::\(function) - \(line)",
                                        message: String(describing: message)))

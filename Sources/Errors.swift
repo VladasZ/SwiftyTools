@@ -9,16 +9,13 @@
 import Foundation
 
 public class FailedToInitializeBlockError : Error {
-    
     var localizedDescription: String { return "Failed to initialize block" }
 }
 
 public class FailedToConvertBlockError : Error {
-    
     var localizedDescription: String { return "Failed to convert block" }
 }
 
 public class FailedToExtractBlockError : Error {
-    
     var localizedDescription: String { return "Failed to extract block" }
 }
