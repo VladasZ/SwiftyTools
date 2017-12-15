@@ -11,13 +11,13 @@ import Foundation
 fileprivate let secondsInHour   = 60 * 60
 fileprivate let secondsInMinute = 60
 
-class TimerDuration {
+public class TimerDuration {
     
     private var startDate: TimeInterval = 0
     private var pauseDate: TimeInterval = 0
     private var stopDate:  TimeInterval = 0
     
-    var totalSeconds: TimeInterval {
+    public var totalSeconds: TimeInterval {
         get {
             if pauseDate == 0 && stopDate == 0 {
                 return Date().timeIntervalSinceReferenceDate - startDate
@@ -35,7 +35,7 @@ class TimerDuration {
         }
     }
     
-    var isPaused: Bool = false {
+    public var isPaused: Bool = false {
         didSet {
             
             if isPaused {
@@ -52,22 +52,22 @@ class TimerDuration {
         }
     }
     
-    var stopped: Bool { return stopDate != 0 }
+    public var stopped: Bool { return stopDate != 0 }
     
     //MARK: - Interface
     
-    func start() {
+    public func start() {
         
         startDate = Date().timeIntervalSinceReferenceDate
     }
 
-    func stop() {
+    public func stop() {
         
         isPaused = false
         stopDate = Date().timeIntervalSinceReferenceDate
     }
     
-    var String: String {
+    public var String: String {
         
         var seconds = Int(self.totalSeconds)
         
@@ -79,7 +79,7 @@ class TimerDuration {
         return "\(timeComponentToString(hours)):\(timeComponentToString(minutes)):\(timeComponentToString(seconds))"
     }
     
-    var description: String {
+    public var description: String {
         
         var seconds = Int(self.totalSeconds)
         
