@@ -35,6 +35,8 @@ public class TimerDuration {
         }
     }
     
+    public init() { }
+    
     public var isPaused: Bool = false {
         didSet {
             
