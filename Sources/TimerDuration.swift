@@ -35,6 +35,23 @@ public class TimerDuration {
         }
     }
     
+    public var seconds: Int {
+        var seconds = Int(self.totalSeconds)
+        seconds %= secondsInHour
+        seconds %= secondsInMinute
+        return seconds
+    }
+    
+    public var minutes: Int {
+        var seconds = Int(self.totalSeconds)
+        seconds %= secondsInHour
+        return seconds / secondsInMinute
+    }
+    
+    public var hours: Int {
+        return Int(self.totalSeconds) / secondsInHour
+    }
+    
     public init() { }
     
     public var isPaused: Bool = false {
