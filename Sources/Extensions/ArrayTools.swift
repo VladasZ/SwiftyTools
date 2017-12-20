@@ -19,6 +19,12 @@ public extension Array {
     }
 }
 
+extension Collection {
+    subscript (safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
+
 public extension Array where Iterator.Element : Equatable {
     
     func random(_ count: Int) -> [Element]? {
