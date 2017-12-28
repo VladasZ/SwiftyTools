@@ -109,7 +109,7 @@ public class TimerDuration {
         return "\(timeComponentToString(minutes)):\(timeComponentToString(seconds))"
     }
     
-    private func timeComponentToString(_ component: Int) -> String {
+    public func timeComponentToString(_ component: Int) -> String {
         
         if component < 10 { return "0\(component)"}
         return  "\(component)"
