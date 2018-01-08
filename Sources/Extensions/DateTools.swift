@@ -55,6 +55,21 @@ public extension Date {
         return date
     }
     
+    public static func todayWith(hour: Int, minute: Int, second: Int) -> Date {
+        
+        let current = Date()
+        
+        var dateComponents = DateComponents()
+        dateComponents.year = current.year
+        dateComponents.month = current.month
+        dateComponents.day = current.day
+        dateComponents.hour = hour
+        dateComponents.minute = minute
+        dateComponents.second = second
+        
+        return NSCalendar(calendarIdentifier: .gregorian)!.date(from: dateComponents)!
+    }
+    
     public static func parse(_ dateString: String, format: String? = nil) -> Date {
         
         if let format = format {
@@ -110,9 +125,31 @@ public extension Date {
 public extension Int {
     
     public var hoursMinuteString: String {
-        
         let date = Date(timeIntervalSinceReferenceDate: TimeInterval(self))
         return minSecTimeFormatter.string(from: date)
     }
+    
+    public var timeComponentString: String {
+        if self > 9 { return "\(self)" }
+        else { return "0\(self)" }
+    }
 }
 
+public extension TimeInterval {
+    public var timeString: String {
+        var totalSeconds: Int = abs(self.Int)
+        let hours: Int = totalSeconds / (60 * 60)
+        totalSeconds -= hours * 60 * 60
+        let minutes = totalSeconds / 60
+        totalSeconds -= minutes * 60
+        return "\(hours.timeComponentString):\(minutes.timeComponentString):\(totalSeconds.timeComponentString)"
+    }
+}
+
+public func -(left: Date, right: Date) -> Date {
+    return Date(timeIntervalSinceReferenceDate: left.timeIntervalSinceReferenceDate - right.timeIntervalSinceReferenceDate)
+}
+
+public func -= ( left: inout Date, right: Date) {
+    left = Date(timeIntervalSinceReferenceDate: left.timeIntervalSinceReferenceDate - right.timeIntervalSinceReferenceDate)
+}
