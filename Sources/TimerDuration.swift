@@ -13,24 +13,26 @@ fileprivate let secondsInMinute = 60
 
 public class TimerDuration {
     
-    private var startDate: TimeInterval = 0
-    private var pauseDate: TimeInterval = 0
+    public var startDate: Date?
+    
+    private var startInterval: TimeInterval = 0
+    private var pauseInterval: TimeInterval = 0
     private var stopDate:  TimeInterval = 0
     
     public var totalSeconds: TimeInterval {
         get {
-            if pauseDate == 0 && stopDate == 0 {
-                return Date().timeIntervalSinceReferenceDate - startDate
+            if pauseInterval == 0 && stopDate == 0 {
+                return Date().timeIntervalSinceReferenceDate - startInterval
             }
             else if stopDate == 0 {
-                return pauseDate - startDate
+                return pauseInterval - startInterval
             }
             else {
-                return stopDate - startDate
+                return stopDate - startInterval
             }
         }
         set {
-            startDate = 0
+            startInterval = 0
             stopDate = newValue
         }
     }
@@ -56,17 +58,13 @@ public class TimerDuration {
     
     public var isPaused: Bool = false {
         didSet {
-            
             if isPaused {
-                
-                pauseDate = Date().timeIntervalSinceReferenceDate
+                pauseInterval = Date().timeIntervalSinceReferenceDate
             }
             else {
-                
-                guard pauseDate != 0 else { return }
-                
-                startDate += Date.timeIntervalSinceReferenceDate - pauseDate
-                pauseDate = 0
+                guard pauseInterval != 0 else { return }
+                startInterval += Date.timeIntervalSinceReferenceDate - pauseInterval
+                pauseInterval = 0
             }
         }
     }
@@ -76,12 +74,12 @@ public class TimerDuration {
     //MARK: - Interface
     
     public func start() {
-        
-        startDate = Date().timeIntervalSinceReferenceDate
+        if startDate != nil { Log.error(); return }
+        startDate = Date()
+        startInterval = Date().timeIntervalSinceReferenceDate
     }
 
     public func stop() {
-        
         isPaused = false
         stopDate = Date().timeIntervalSinceReferenceDate
     }
