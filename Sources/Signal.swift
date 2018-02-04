@@ -54,6 +54,7 @@ public class Signal<T> {
     private var linked: Signal?
     private var _action: ((T) -> ())?
     private var _identifier: String?
+    private var _logEnabled = true
     
     public init(_ id: String? = nil, linked: Signal? = nil, _ action: ((T) -> ())? = nil) {
         
@@ -89,9 +90,16 @@ public class Signal<T> {
         filterredArray.forEach { subscribers[$0.key] = $0.value }
     }
     
+    public func disableLog() -> Self {
+        _logEnabled = false
+        return self
+    }
+    
     public func fire(_ value: T) {
         
-        if let id = _identifier { Log.info("Signal: " + id + " triggered") }
+        if _logEnabled {
+            if let id = _identifier { Log.info("Signal: " + id + " triggered") }
+        }
         
         func _fire() {
             
