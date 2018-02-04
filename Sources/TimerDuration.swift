@@ -21,6 +21,7 @@ public class TimerDuration {
     
     public var totalSeconds: TimeInterval {
         get {
+            if startDate == nil { return 0 }
             if pauseInterval == 0 && stopDate == 0 {
                 return Date().timeIntervalSinceReferenceDate - startInterval
             }
@@ -85,7 +86,7 @@ public class TimerDuration {
     }
     
     public var String: String {
-        
+
         var seconds = Int(self.totalSeconds)
         
         let hours = seconds / secondsInHour
