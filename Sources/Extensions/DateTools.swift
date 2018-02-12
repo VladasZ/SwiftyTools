@@ -98,7 +98,14 @@ public extension Date {
     
     public var withoutTimeComponent: Date {
         
-        return Date.cal.date(bySetting: .minute, value: 0, of: Date.cal.date(bySetting: .hour, value: 0, of: self)!)!
+        return Date.cal.date(bySetting: .minute, value: 0, of:
+               Date.cal.date(bySetting: .hour, value: 0, of: self)!)!
+    }
+    
+    public var withoutDayComponent: Date {
+        return Date.cal.date(bySetting: .day,    value: 0, of:
+               Date.cal.date(bySetting: .minute, value: 0, of:
+               Date.cal.date(bySetting: .hour,   value: 0, of: self)!)!)!
     }
     
     public var timeString: String {
