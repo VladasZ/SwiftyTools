@@ -25,21 +25,21 @@ public class Number {
         }
     }
     
-    public init(_ value: Any?) throws { guard let value = value else { throw "Failed Number" }
+    public init?(_ value: Any?) { guard let value = value else { return nil }
         switch value {
         case is String: let string = value as! String
         if string == "true" || string == "false" {
             self.value = string == "true" ? "1" : "0"
         }
         else {
-            guard Double(string) != nil else { throw "Invalid string value" }
+            guard Double(string) != nil else { return nil }
             self.value = string
-            }
+        }
         case is Int:    self.value = String(value as! Int)
         case is Float:  self.value = String(value as! Float)
         case is Double: self.value = String(value as! Double)
         case is Bool:   self.value = (value as! Bool) ? "1" : "0"
-        default: throw "Unsupported class"
+        default: return nil
         }
     }
 }
