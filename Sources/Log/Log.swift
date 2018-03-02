@@ -12,6 +12,12 @@ public let noMessageString = "noMessageString"
 
 public class Log {
     
+    public static var infoSymbol = "💚"
+    public static var warningSymbol = "💛"
+    public static var errorSymbol = "❤️"
+    
+    public static var enabled = true
+
     public static func info(_ message: Any? = noMessageString, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
         log(message, withType: .info, file, function, line)
     }
@@ -26,13 +32,15 @@ public class Log {
     
     private static func log(_ message: Any?, withType type: LogType, _ file:String, _ function:String, _ line:Int) {
         
+        if !enabled { return }
+        
         var typeString: String
         let file = file.lastPathComponent.replacingOccurrences(of: ".swift", with: "")
         
         switch type {
-        case .info:    typeString = "💚 INFO 💚"
-        case .warning: typeString = "💛 WARNING 💛"
-        case .error:   typeString = "❤️ ERROR ❤️"
+        case .info:    typeString = "\(infoSymbol) INFO \(infoSymbol)"
+        case .warning: typeString = "\(warningSymbol) WARNING \(warningSymbol)"
+        case .error:   typeString = "\(errorSymbol) ERROR \(errorSymbol)"
         }
         
         var logMessage = "[\(typeString)]"
