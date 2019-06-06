@@ -14,15 +14,9 @@ fileprivate struct SignalSubscriber<T> : Hashable {
         return lhs.hashValue == rhs.hashValue
     }
     
-    var hashValue: Int {
-        
-        var hash = file.hashValue + line.hashValue
-        
-        if let hashObject = linkedObject?.hash {
-            hash += hashObject
-        }
-        
-        return hash
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(file)
+        hasher.combine(line)
     }
     
     var identifier: String {

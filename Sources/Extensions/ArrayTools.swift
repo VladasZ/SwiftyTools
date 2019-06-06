@@ -52,7 +52,7 @@ public extension Array where Iterator.Element : Equatable {
     mutating func popRandom() -> Element? {
         if count == 0 { Log.error(); return first! }
         let random = randomElement
-        let index = self.index { $0 == random }!
+        let index = self.firstIndex { $0 == random }!
         remove(at: index)
         return random
     }

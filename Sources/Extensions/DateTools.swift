@@ -12,9 +12,9 @@ fileprivate var dateFormatterLocale: Locale?
 
 public extension DateFormatter {
     
-    public static func setLocale(_ locale: Locale) { dateFormatterLocale = locale }
+    static func setLocale(_ locale: Locale) { dateFormatterLocale = locale }
 
-    public convenience init(_ format: String) {
+    convenience init(_ format: String) {
         self.init()
         self.dateFormat = format
         if let locale = dateFormatterLocale { self.locale = locale }
@@ -40,7 +40,7 @@ public extension Date {
 
     //MARK: - Initializatiors
     
-    public static func with(year: Int, month: Int, day: Int) -> Date {
+    static func with(year: Int, month: Int, day: Int) -> Date {
         let gregorianCalendar = NSCalendar(calendarIdentifier: .gregorian)!
         var dateComponents = DateComponents()
         dateComponents.year = year
@@ -50,7 +50,7 @@ public extension Date {
         return date
     }
     
-    public static func todayWith(hour: Int, minute: Int, second: Int) -> Date {
+    static func todayWith(hour: Int, minute: Int, second: Int) -> Date {
         let current = Date()
         var dateComponents = DateComponents()
         dateComponents.year = current.year
@@ -62,21 +62,21 @@ public extension Date {
         return NSCalendar(calendarIdentifier: .gregorian)!.date(from: dateComponents)!
     }
     
-    public static func parse(_ dateString: String, format: String) -> Date? {
+    static func parse(_ dateString: String, format: String) -> Date? {
         return DateFormatter(format).date(from: dateString)
     }
     
-    public func stringWithFormat(_ format: String) -> String {
+    func stringWithFormat(_ format: String) -> String {
         return DateFormatter(format).string(from: self)
     }
     
     private static let cal = Calendar(identifier: .gregorian)
     
-    public func isEqualDayTo(_ date: Date) -> Bool {
+    func isEqualDayTo(_ date: Date) -> Bool {
         return self.withoutTimeComponent == date.withoutTimeComponent
     }
     
-    public var withoutTimeComponent: Date {
+    var withoutTimeComponent: Date {
         return Date.cal.date(bySetting: .minute, value: 0, of:
                Date.cal.date(bySetting: .hour, value: 0, of: self)!)!
     }
@@ -84,19 +84,19 @@ public extension Date {
 
 public extension Int {
     
-    public var hoursMinuteString: String {
+    var hoursMinuteString: String {
         let date = Date(timeIntervalSinceReferenceDate: TimeInterval(self))
         return date.stringWithFormat("HH:mm")
     }
     
-    public var timeComponentString: String {
+    var timeComponentString: String {
         if self > 9 { return "\(self)" }
         else { return "0\(self)" }
     }
 }
 
 public extension TimeInterval {
-    public var timeString: String {
+    var timeString: String {
         var totalSeconds: Int = abs(self.Int)
         let hours: Int = totalSeconds / (60 * 60)
         totalSeconds -= hours * 60 * 60

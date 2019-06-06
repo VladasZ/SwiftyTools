@@ -9,6 +9,6 @@
 import Foundation
 
 public extension Log {
-    public static var saveMessages = false
-    public static var messages = [LogMessage]()
+    static var saveMessages = false
+    static var messages = [LogMessage]()
 }
