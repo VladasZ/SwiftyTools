@@ -54,6 +54,10 @@ public extension String {
         return components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
     }
     
+    var containsWhitespace : Bool {
+        return (rangeOfCharacter(from: .whitespacesAndNewlines) != nil)
+    }
+    
     func remove(_ characters: String) -> String {
         return components(separatedBy: CharacterSet(charactersIn: characters)).joined()
     }
@@ -82,6 +86,27 @@ public extension Optional where Wrapped == String {
         switch self {
             case .none: return false
             case let .some(string): return string.isValidEmail
+        }
+    }
+    
+    func minimumLength(_ length: Int) -> String? {
+        switch self {
+        case .none: return nil
+        case let .some(string): return string.count >= length ? string : nil
+        }
+    }
+    
+    var notEmpty: String? {
+        switch self {
+        case .none: return nil
+        case let .some(string): return string.isEmpty ? nil : string
+        }
+    }
+    
+    var anyString: String {
+        switch self {
+        case .none: return ""
+        case let .some(string): return string
         }
     }
 }
