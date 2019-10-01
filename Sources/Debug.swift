@@ -18,11 +18,11 @@ public class Debug {
         
         if let data = callCouterData[id] {
             
-            Log.info("call count: \(data)", file, function, line)
+            Log("call count: \(data)", file, function, line)
             callCouterData[id]! += 1
         }
         else {
-            Log.info("call count: \(1)", file, function, line)
+            Log("call count: \(1)", file, function, line)
             callCouterData[id] = 1
         }
     }

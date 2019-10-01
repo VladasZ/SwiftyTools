@@ -16,6 +16,6 @@ import Foundation
                                              _ line:Int = #line) -> T {
     
     if let value = value { return value }
-    Log.error("Optional check", file, function, line)
+    LogError("Optional check", file, function, line)
     return `default`
 }

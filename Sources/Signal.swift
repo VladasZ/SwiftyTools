@@ -92,7 +92,7 @@ public class Signal<T> {
     public func fire(_ value: T) {
         
         if _logEnabled {
-            if let id = _identifier { Log.info("Signal: " + id + " triggered") }
+            if let id = _identifier { Log("Signal: " + id + " triggered") }
         }
         
         func _fire() {

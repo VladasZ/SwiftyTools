@@ -36,7 +36,7 @@ public extension Array where Iterator.Element : Equatable {
     
     func randomExcept(_ element: Element) -> Element?  {
         var random = randomElement
-        if count == 1 { Log.warning(); return random }
+        if count == 1 { LogWarning(); return random }
         while random == element { random = randomElement }
         return random
     }
@@ -44,13 +44,13 @@ public extension Array where Iterator.Element : Equatable {
     func randomExcept(_ elements: [Element]) -> Element?  {
         if count == 0 { return nil }
         var random = randomElement
-        if count <= elements.count { Log.warning(); return random }
+        if count <= elements.count { LogWarning(); return random }
         while elements.contains(random!) { random = randomElement }
         return random
     }
     
     mutating func popRandom() -> Element? {
-        if count == 0 { Log.error(); return first! }
+        if count == 0 { LogError(); return first! }
         let random = randomElement
         let index = self.firstIndex { $0 == random }!
         remove(at: index)

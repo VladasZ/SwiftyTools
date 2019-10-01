@@ -75,7 +75,7 @@ public class TimerDuration {
     //MARK: - Interface
     
     public func start() {
-        if startDate != nil { Log.error(); return }
+        if startDate != nil { LogError(); return }
         startDate = Date()
         startInterval = Date().timeIntervalSinceReferenceDate
     }

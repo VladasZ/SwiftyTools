@@ -25,7 +25,7 @@ public extension Timer {
     
     @objc private static func timerAction(_ timer: Timer) {
  
-        guard let action = timer.userInfo as? TimerAction else { Log.error(); timer.invalidate(); return }
+        guard let action = timer.userInfo as? TimerAction else { LogError(); timer.invalidate(); return }
         
         var stop: Bool = false
         action(&stop)

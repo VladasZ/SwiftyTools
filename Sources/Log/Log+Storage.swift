@@ -8,7 +8,7 @@
 
 import Foundation
 
-public extension Log {
+public extension LogSetup {
     static var saveMessages = false
     static var messages = [LogMessage]()
 }
