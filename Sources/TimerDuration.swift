@@ -85,7 +85,7 @@ public class TimerDuration {
         stopDate = Date().timeIntervalSinceReferenceDate
     }
     
-    public var String: String {
+    public var toString: String {
 
         var seconds = Int(self.totalSeconds)
         

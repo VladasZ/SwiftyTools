@@ -97,7 +97,7 @@ public extension Int {
 
 public extension TimeInterval {
     var timeString: String {
-        var totalSeconds: Int = abs(self.Int)
+        var totalSeconds: Int = abs(toInt)
         let hours: Int = totalSeconds / (60 * 60)
         totalSeconds -= hours * 60 * 60
         let minutes = totalSeconds / 60

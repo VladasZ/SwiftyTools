@@ -6,28 +6,31 @@
 //  Copyright © 2017 VladasZ. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
 
 public extension Bool {
-    
-    var String: String { return self ? "true" : "false" }
+    var toString: String { return self ? "true" : "false" }
 }
 
 public extension String {
-    
-    var Double: Double? { return Swift.Double(self) }
-    var Int:    Int?    { return Swift.Int(self)    }
-    var Bool:   Bool    { return self == "true"     }
+    var toDouble: Double? { return Swift.Double(self) }
+    var toInt:    Int?    { return Swift.Int(self)    }
+    var toBool:   Bool    { return self == "true"     }
 }
 
 public extension Int {
-    
-    var Double: Double   { return Swift.Double(self) }
-    var String: String   { return Swift.String(self) }
+    var toDouble:  Double  { return Swift.Double(self)  }
+    var toString:  String  { return Swift.String(self)  }
+    var toCGFloat: CGFloat { return UIKit.CGFloat(self) }
 }
 
 public extension Double {
-    
-    var Int:    Int      { return Swift.Int(self)    }
-    var String: String   { return Swift.String(self) }
+    var toInt:    Int      { return Swift.Int(self)    }
+    var toString: String   { return Swift.String(self) }
+}
+
+public extension CGFloat {
+    var toInt:    Int      { return Swift.Int(self) }
+    var toString: String   { "\(self)"              }
 }

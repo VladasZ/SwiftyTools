@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladas Zakrevskis. All rights reserved.
 //
 
-
 import Foundation
+
 
 public extension String {
     
@@ -68,8 +68,6 @@ public extension String {
         return emailTest.evaluate(with: self)
     }
     
-    var url: URL? { return URL(string: self) }
-
 }
 
 public extension String {
