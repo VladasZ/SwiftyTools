@@ -13,8 +13,7 @@ public extension Array where Element : Hashable {
 }
 
 public extension Array {
-    var randomElement: Element? {
-        if count == 0 { return nil }
+    var randomElement: Element {
         return self[Int(arc4random_uniform(UInt32(count)))]
     }
 }
@@ -25,32 +24,44 @@ public extension Collection {
     }
 }
 
+//MARK: - Deletion
+
+public extension Array where Iterator.Element : Equatable {
+
+    mutating func remove(_ element: Element) {
+        guard let index = firstIndex(of: element) else { LogWarning(); return }
+        remove(at: index)
+    }
+    
+    mutating func remove(_ elements: [Element]) {
+        for element in elements { remove(element) }
+    }
+    
+}
+
+//MARK: - Random
+
 public extension Array where Iterator.Element : Equatable {
     
-    func random(_ count: Int) -> [Element]? {
-        if count == 0 { return nil }
+    func random(_ count: Int) -> [Element] {
         var result = [Element]()
-        for _ in 0..<count { result.append(randomExcept(result)!) }
+        for _ in 0..<count { result.append(randomExcept(result)) }
         return result
     }
     
-    func randomExcept(_ element: Element) -> Element?  {
+    func randomExcept(_ element: Element) -> Element  {
         var random = randomElement
-        if count == 1 { LogWarning(); return random }
         while random == element { random = randomElement }
         return random
     }
     
-    func randomExcept(_ elements: [Element]) -> Element?  {
-        if count == 0 { return nil }
+    func randomExcept(_ elements: [Element]) -> Element  {
         var random = randomElement
-        if count <= elements.count { LogWarning(); return random }
-        while elements.contains(random!) { random = randomElement }
+        while elements.contains(random) { random = randomElement }
         return random
     }
     
-    mutating func popRandom() -> Element? {
-        if count == 0 { LogError(); return first! }
+    mutating func popRandom() -> Element {
         let random = randomElement
         let index = self.firstIndex { $0 == random }!
         remove(at: index)
