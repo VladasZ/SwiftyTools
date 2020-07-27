@@ -9,28 +9,15 @@
 import UIKit
 
 
-public extension Bool {
-    var toString: String { return self ? "true" : "false" }
-}
-
-public extension String {
-    var toDouble: Double? { return Swift.Double(self) }
-    var toInt:    Int?    { return Swift.Int(self)    }
-    var toBool:   Bool    { return self == "true"     }
-}
-
 public extension Int {
-    var toDouble:  Double  { return Swift.Double(self)  }
-    var toString:  String  { return Swift.String(self)  }
-    var toCGFloat: CGFloat { return UIKit.CGFloat(self) }
+    var toDouble:  Double  { Double(self)  }
+    var toCGFloat: CGFloat { CGFloat(self) }
 }
 
 public extension Double {
-    var toInt:    Int      { return Swift.Int(self)    }
-    var toString: String   { return Swift.String(self) }
+    var toInt: Int { Int(self) }
 }
 
 public extension CGFloat {
-    var toInt:    Int      { return Swift.Int(self) }
-    var toString: String   { "\(self)"              }
+    var toInt: Int { Int(self) }
 }
