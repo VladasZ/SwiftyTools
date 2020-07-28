@@ -10,12 +10,13 @@ import UIKit
 
 
 public extension Int {
-    var toDouble:  Double  { Double(self)  }
+    var toDouble:  Double  { Double (self) }
     var toCGFloat: CGFloat { CGFloat(self) }
 }
 
 public extension Double {
-    var toInt: Int { Int(self) }
+    var toInt:   Int   { Int  (self) }
+    var toFloat: Float { Float(self) }
 }
 
 public extension CGFloat {
