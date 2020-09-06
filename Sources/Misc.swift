@@ -42,3 +42,29 @@ public func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
         return next
     }
 }
+
+extension Array {
+    
+    func applyTask(_ task: (_ object: Element, _ completion: @escaping Completion) -> (), _ completion: @escaping Completion) {
+        
+        let group = DispatchGroup()
+        
+        var requestError: String?
+        
+        group.enter()
+        for object in self {
+            task(object) { error in
+                if let error = error {
+                    requestError = error
+                }
+                group.leave()
+            }
+        }
+        
+        group.notify(queue: DispatchQueue.main) {
+            completion(requestError)
+        }
+        
+    }
+    
+}
