@@ -51,8 +51,8 @@ extension Array {
         
         var requestError: String?
         
-        group.enter()
         for object in self {
+            group.enter()
             task(object) { error in
                 if let error = error {
                     requestError = error
