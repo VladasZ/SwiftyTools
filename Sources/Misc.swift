@@ -8,8 +8,84 @@
 
 import Foundation
 
-public func onMain(_ action: @escaping () -> ()) {
+class Wait {
+    
+    private let _start: () -> ()
+    private let _end:   () -> ()
+    
+    static func make(_ start: @escaping () -> (), end: @escaping () -> ()) -> Wait {
+        return Wait(start, end: end)
+    }
+    
+    init(_ start: @escaping () -> (), end: @escaping () -> ()) {
+        _start = start
+        _end   = end
+    }
+    
+    func start() { sync { self._start() } }
+    func end()   { sync { self._end()   } }
+    
+}
+
+func wait(_ delay: Double) {
+    usleep(useconds_t(1000000 * delay))
+}
+
+func sync(_ request: (@escaping Completion) -> ()) -> String? {
+    var error: String?
+    let group = DispatchGroup()
+    group.enter()
+    request { e in
+        if let e = e { error = e }
+        group.leave()
+    }
+    group.wait()
+    return error
+}
+
+func sync(_ request: (@escaping Completion) -> (), fail: @escaping Fail) {
+    request { e in
+        sync { if let e = e { fail(e) } }
+    }
+}
+
+func sync(_ wait: Wait, _ request: (@escaping Completion) -> (), fail: @escaping Fail) {
+    wait.start()
+    request { e in
+        sync { if let e = e { fail(e) } }
+        wait.end()
+    }
+}
+
+func sync(_ request: (@escaping Completion) -> (), ok: @escaping Ok, fail: @escaping Fail) {
+    request { e in
+        sync { if let e = e { fail(e) } else { ok() } }
+    }
+}
+
+func sync(_ wait: Wait, _ request: (@escaping Completion) -> (), ok: @escaping Ok, fail: @escaping Fail) {
+    wait.start()
+    request { e in
+        sync { if let e = e { fail(e) } else { ok() } }
+        wait.end()
+    }
+}
+
+func sync(_ action: @escaping () -> ()) {
+    if Thread.isMainThread { action(); return }
     DispatchQueue.main.async(execute: action)
+}
+
+func async(_ action: @escaping () -> ()) {
+    DispatchQueue.global().async(execute: action)
+}
+
+func async(_ wait: Wait, _ action: @escaping () -> ()) {
+    wait.start()
+    DispatchQueue.global().async {
+        action()
+        wait.end()
+    }
 }
 
 public func after(_ delay: Double, action: @escaping () -> ()) {

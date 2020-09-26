@@ -73,43 +73,47 @@ public extension String {
 public extension String {
     
     func index(from: Int) -> Index {
-         return self.index(startIndex, offsetBy: from)
-     }
-
-     func substring(from: Int) -> String {
-         let fromIndex = index(from: from)
-         return substring(from: fromIndex)
-     }
-
-     func substring(to: Int) -> String {
-         let toIndex = index(from: to)
-         return substring(to: toIndex)
-     }
-
-     func substring(with r: Range<Int>) -> String {
-         let startIndex = index(from: r.lowerBound)
-         let endIndex = index(from: r.upperBound)
-         return substring(with: startIndex..<endIndex)
-     }
+        return self.index(startIndex, offsetBy: from)
+    }
+    
+    func substring(from: Int) -> String {
+        let fromIndex = index(from: from)
+        return substring(from: fromIndex)
+    }
+    
+    func substring(to: Int) -> String {
+        let toIndex = index(from: to)
+        return substring(to: toIndex)
+    }
+    
+    func substring(with r: Range<Int>) -> String {
+        let startIndex = index(from: r.lowerBound)
+        let endIndex = index(from: r.upperBound)
+        return substring(with: startIndex..<endIndex)
+    }
     
 }
 
 public extension String {
-
+    
     func fromBase64() -> String {
         guard let data = Data(base64Encoded: self) else {
             return ""
         }
         return Swift.String(data: data, encoding: .utf8) ?? ""
     }
-
+    
     func toBase64() -> String {
         return Data(self.utf8).base64EncodedString()
     }
     
     func trim() -> String {
-         let cleanString = self.trimmingCharacters(in: .whitespacesAndNewlines)
-         return cleanString
+        let cleanString = self.trimmingCharacters(in: .whitespacesAndNewlines)
+        return cleanString
+    }
+    
+    var notEmpty: Bool {
+        !isEmpty
     }
     
 }
@@ -125,8 +129,8 @@ public extension Optional where Wrapped == String {
     
     var isValidEmail: Bool {
         switch self {
-            case .none: return false
-            case let .some(string): return string.isValidEmail
+        case .none: return false
+        case let .some(string): return string.isValidEmail
         }
     }
     
@@ -137,7 +141,7 @@ public extension Optional where Wrapped == String {
         }
     }
     
-    var notEmpty: String? {
+    var notEmptyOrNil: String? {
         switch self {
         case .none: return nil
         case let .some(string): return string.isEmpty ? nil : string

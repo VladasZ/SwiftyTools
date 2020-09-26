@@ -103,7 +103,7 @@ public class Signal<T> {
         }
         
         if Thread.isMainThread { _fire() }
-        else { onMain { _fire() } }
+        else { sync { _fire() } }
     }
 }
 
