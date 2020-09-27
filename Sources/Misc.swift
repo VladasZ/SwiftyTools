@@ -8,38 +8,6 @@
 
 import Foundation
 
-typealias Completion = (_ error: String?) -> ()
-
-typealias Ok     = () -> ()
-typealias Fail   = (_ error: String) -> ()
-typealias Got<T> = (_ value: T)      -> ()
-
-typealias Done       = (_ error: String?            ) -> ()
-typealias Fetched<T> = (_ error: String?, _ value: T) -> ()
-
-typealias Do       = (@escaping Done      ) -> ()
-typealias Fetch<T> = (@escaping Fetched<T>) -> ()
-
-
-class Wait {
-    
-    private let _start: () -> ()
-    private let _end:   () -> ()
-    
-    static func make(_ start: @escaping () -> (), end: @escaping () -> ()) -> Wait {
-        return Wait(start, end: end)
-    }
-    
-    init(_ start: @escaping () -> (), end: @escaping () -> ()) {
-        _start = start
-        _end   = end
-    }
-    
-    func start() { sync { self._start() } }
-    func end()   { sync { self._end()   } }
-    
-}
-
 func wait(_ delay: Double) {
     usleep(useconds_t(1000000 * delay))
 }
