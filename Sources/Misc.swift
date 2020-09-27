@@ -8,6 +8,19 @@
 
 import Foundation
 
+typealias Completion = (_ error: String?) -> ()
+
+typealias Ok     = () -> ()
+typealias Fail   = (_ error: String) -> ()
+typealias Got<T> = (_ value: T)      -> ()
+
+typealias Done       = (_ error: String?            ) -> ()
+typealias Fetched<T> = (_ error: String?, _ value: T) -> ()
+
+typealias Do       = (@escaping Done      ) -> ()
+typealias Fetch<T> = (@escaping Fetched<T>) -> ()
+
+
 class Wait {
     
     private let _start: () -> ()
@@ -31,7 +44,7 @@ func wait(_ delay: Double) {
     usleep(useconds_t(1000000 * delay))
 }
 
-func sync(_ request: (@escaping Completion) -> ()) -> String? {
+func sync(_ request: Do) -> String? {
     var error: String?
     let group = DispatchGroup()
     group.enter()
@@ -43,32 +56,28 @@ func sync(_ request: (@escaping Completion) -> ()) -> String? {
     return error
 }
 
-func sync(_ request: (@escaping Completion) -> (), fail: @escaping Fail) {
-    request { e in
-        sync { if let e = e { fail(e) } }
-    }
+func sync(_ request: Do, fail: @escaping Fail) {
+    request { e in sync { if let e = e { fail(e) } } }
 }
 
-func sync(_ wait: Wait, _ request: (@escaping Completion) -> (), fail: @escaping Fail) {
-    wait.start()
-    request { e in
-        sync { if let e = e { fail(e) } }
-        wait.end()
-    }
+func sync(_ wait: Wait, _ request: Do, fail: @escaping Fail) {
+    wait.start(); request { e in sync { if let e = e { fail(e) } }; wait.end() }
 }
 
-func sync(_ request: (@escaping Completion) -> (), ok: @escaping Ok, fail: @escaping Fail) {
-    request { e in
-        sync { if let e = e { fail(e) } else { ok() } }
-    }
+func sync(_ request: Do, ok: @escaping Ok, fail: @escaping Fail) {
+    request { e in sync { if let e = e { fail(e) } else { ok() } } }
 }
 
-func sync(_ wait: Wait, _ request: (@escaping Completion) -> (), ok: @escaping Ok, fail: @escaping Fail) {
-    wait.start()
-    request { e in
-        sync { if let e = e { fail(e) } else { ok() } }
-        wait.end()
-    }
+func sync(_ wait: Wait, _ request: Do, ok: @escaping Ok, fail: @escaping Fail) {
+    wait.start(); request { e in sync { if let e = e { fail(e) } else { ok() } }; wait.end() }
+}
+
+func sync<T>(_ request: Fetch<T>, got: @escaping Got<T>, fail: @escaping Fail) {
+    request { e, o in sync { if let e = e { fail(e) } else { got(o) } } }
+}
+
+func sync<T>(_ wait: Wait, _ request: Fetch<T>, got: @escaping Got<T>, fail: @escaping Fail) {
+    wait.start(); request { e, o in sync { if let e = e { fail(e) } else { got(o) } }; wait.end() }
 }
 
 func sync(_ action: @escaping () -> ()) {
