@@ -122,7 +122,7 @@ extension Array {
     
 }
 
-class Weak<T: AnyObject> {
+class Weak<T: AnyObject & Hashable> : Hashable {
     
     weak var value: T?
     
@@ -132,4 +132,16 @@ class Weak<T: AnyObject> {
         self.value = value
     }
     
+    func hash(into hasher: inout Hasher) {
+        guard let value = value else { return }
+        hasher.combine(value.hashValue)
+    }
+    
+    static func == (lhs: Weak, rhs: Weak) -> Bool {
+        lhs.value === rhs.value
+    }
+    
+    static func == (lhs: Weak, rhs: T) -> Bool {
+        lhs.value === rhs
+    }
 }
