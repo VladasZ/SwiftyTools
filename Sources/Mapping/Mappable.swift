@@ -10,7 +10,5 @@ import EVReflection
 
 
 public class Mappable : EVObject {
-    public var toString: String {
-       toJsonString()
-    }
+    
 }
