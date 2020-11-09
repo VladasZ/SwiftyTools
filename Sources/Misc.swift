@@ -8,44 +8,9 @@
 
 import Foundation
 
+
 func wait(_ delay: Double) {
     usleep(useconds_t(1000000 * delay))
-}
-
-func sync(_ request: Do) -> String? {
-    var error: String?
-    let group = DispatchGroup()
-    group.enter()
-    request { e in
-        if let e = e { error = e }
-        group.leave()
-    }
-    group.wait()
-    return error
-}
-
-func sync(_ request: Do, fail: @escaping Fail) {
-    request { e in sync { if let e = e { fail(e) } } }
-}
-
-func sync(_ wait: Wait, _ request: Do, fail: @escaping Fail) {
-    wait.start(); request { e in sync { if let e = e { fail(e) } }; wait.end() }
-}
-
-func sync(_ request: Do, ok: @escaping Ok, fail: @escaping Fail) {
-    request { e in sync { if let e = e { fail(e) } else { ok() } } }
-}
-
-func sync(_ wait: Wait, _ request: Do, ok: @escaping Ok, fail: @escaping Fail) {
-    wait.start(); request { e in sync { if let e = e { fail(e) } else { ok() } }; wait.end() }
-}
-
-func sync<T>(_ request: Fetch<T>, got: @escaping Got<T>, fail: @escaping Fail) {
-    request { e, o in sync { if let e = e { fail(e) } else { got(o) } } }
-}
-
-func sync<T>(_ wait: Wait, _ request: Fetch<T>, got: @escaping Got<T>, fail: @escaping Fail) {
-    wait.start(); request { e, o in sync { if let e = e { fail(e) } else { got(o) } }; wait.end() }
 }
 
 func sync(_ action: @escaping () -> ()) {
@@ -57,14 +22,6 @@ func async(_ action: @escaping () -> ()) {
     DispatchQueue.global().async(execute: action)
 }
 
-func async(_ wait: Wait, _ action: @escaping () -> ()) {
-    wait.start()
-    DispatchQueue.global().async {
-        action()
-        wait.end()
-    }
-}
-
 public func after(_ delay: Double, action: @escaping () -> ()) {
     let when = DispatchTime.now() + delay
     DispatchQueue.main.asyncAfter(deadline: when, execute: action)
@@ -72,17 +29,17 @@ public func after(_ delay: Double, action: @escaping () -> ()) {
 
 @inline(__always)
 public func random() -> Int {
-    return Int(UInt32(arc4random()))
+    Int(UInt32(arc4random()))
 }
 
 @inline(__always)
 public func random(_ uniform:Int) -> Int {
-    return Int(UInt32(arc4random_uniform(UInt32(uniform))))
+    Int(UInt32(arc4random_uniform(UInt32(uniform))))
 }
 
 @inline(__always)
 public func randomBool() -> Bool {
-    return UInt32(arc4random()) % UInt32(2) == 0
+    UInt32(arc4random()) % UInt32(2) == 0
 }
 
 //https://stackoverflow.com/questions/24007461/how-to-enumerate-an-enum-with-string-type
