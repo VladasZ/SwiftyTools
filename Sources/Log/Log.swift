@@ -10,40 +10,47 @@ import Foundation
 
 public let noMessageString = "noMessageString"
 
-public class LogSetup {
-    public static var infoSymbol = "💚"
+public class LogSetings {
+    public static var infoSymbol    = "💚"
     public static var warningSymbol = "💛"
-    public static var errorSymbol = "❤️"
+    public static var errorSymbol   = "❤️"
     
-    public static var enabled = true
+    public static var enabled    = true
+    public static var logMethods = false
 }
 
 fileprivate class _Log {
     
     fileprivate static func log(_ message: Any?, withType type: LogType, _ file:String, _ function:String, _ line:Int) {
         
-        if !LogSetup.enabled { return }
+        if !LogSetings.enabled { return }
         
         var typeString: String
         let file = file.lastPathComponent.replacingOccurrences(of: ".swift", with: "")
         
         switch type {
-        case .info:    typeString = "\(LogSetup.infoSymbol) INFO \(LogSetup.infoSymbol)"
-        case .warning: typeString = "\(LogSetup.warningSymbol) WARNING \(LogSetup.warningSymbol)"
-        case .error:   typeString = "\(LogSetup.errorSymbol) ERROR \(LogSetup.errorSymbol)"
+        case .info:    typeString = "\(LogSetings.infoSymbol) INFO \(LogSetings.infoSymbol)"
+        case .warning: typeString = "\(LogSetings.warningSymbol) WARNING \(LogSetings.warningSymbol)"
+        case .error:   typeString = "\(LogSetings.errorSymbol) ERROR \(LogSetings.errorSymbol)"
         }
         
         var logMessage = "[\(typeString)]"
         
-        logMessage.append("[\(file)::\(function) - \(line)]")
+        logMessage.append("[\(file)")
+
+        if LogSetings.logMethods {
+            logMessage.append("::\(function)")
+        }
+
+        logMessage.append(" - \(line)]")
         
         if message as? String != noMessageString {
             if let message = message { logMessage.append(" " + String(describing: message)) }
             else                     { logMessage.append(" nil") }
         }
         
-        if LogSetup.saveMessages {
-            LogSetup.messages.append(LogMessage(type: type,
+        if LogSetings.saveMessages {
+            LogSetings.messages.append(LogMessage(type: type,
                                        location: "\(file)::\(function) - \(line)",
                                        message: String(describing: message)))
         }
