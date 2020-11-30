@@ -50,9 +50,11 @@ fileprivate class _Log {
         }
         
         if LogSetings.saveMessages {
-            LogSetings.messages.append(LogMessage(type: type,
-                                       location: "\(file)::\(function) - \(line)",
-                                       message: String(describing: message)))
+            sync {
+                LogSetings.messages.append(LogMessage(type: type,
+                        location: "\(file)::\(function) - \(line)",
+                        message: String(describing: message)))
+            }
         }
         
         
