@@ -62,14 +62,29 @@ fileprivate class _Log {
     }
 }
 
-public func Log(_ message: Any? = noMessageString, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+public func Log(_ message: Any? = noMessageString,
+                _ file:String = #file,
+                _ function:String = #function,
+                _ line:Int = #line,
+                enabled: Bool = true) {
+    if !enabled { return }
     _Log.log(message, withType: .info, file, function, line)
 }
 
-public func LogWarning(_ message: Any? = noMessageString, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+public func LogWarning(_ message: Any? = noMessageString,
+                       _ file:String = #file,
+                       _ function:String = #function,
+                       _ line:Int = #line,
+                       enabled: Bool = true) {
+    if !enabled { return }
     _Log.log(message, withType: .warning, file, function, line)
 }
 
-public func LogError(_ message: Any? = noMessageString, _ file:String = #file, _ function:String = #function, _ line:Int = #line) {
+public func LogError(_ message: Any? = noMessageString,
+                     _ file:String = #file,
+                     _ function:String = #function,
+                     _ line:Int = #line, enabled:
+        Bool = true) {
+    if !enabled { return }
     _Log.log(message, withType: .error, file, function, line)
 }
