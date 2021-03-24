@@ -49,11 +49,22 @@ fileprivate class _Log {
             else                     { logMessage.append(" nil") }
         }
         
+        let storedMessage: String
+        if let asString = message as? String {
+            storedMessage = asString
+        }
+        else if let any: Any = message {
+            storedMessage = String(describing: any)
+        }
+        else {
+            storedMessage = "nil"
+        }
+        
         if LogSetings.saveMessages {
             sync {
                 LogSetings.messages.append(LogMessage(type: type,
                         location: "\(file)::\(function) - \(line)",
-                        message: String(describing: message)))
+                        message: storedMessage ))
             }
         }
         

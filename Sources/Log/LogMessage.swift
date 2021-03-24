@@ -19,9 +19,9 @@ public class LogMessage {
     
     public var type:     LogType
     public var location: String
-    public var message:  String?
+    public var message:  String
     
-    public init(type: LogType, location: String, message: String?) {
+    public init(type: LogType, location: String, message: String) {
         
         self.type     = type
         self.location = location
