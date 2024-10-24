@@ -43,7 +43,7 @@ public extension String {
         return  String(self.prefix(ind)) + string + String(self.suffix(self.count - ind))
     }
     
-    private static let nums: Set<Character> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    private static let nums: Set<Swift.Character> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     
     var isNumeric: Bool {
         guard self.count > 0 else { return false }
